@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keystroke Dynamics Biometrics Research</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+        header {
+            background: linear-gradient(to right, #2c3e50, #4ca1af);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #4ca1af;
+            padding-bottom: 0.5rem;
+            margin-top: 2rem;
+        }
+        .subtitle {
+            font-size: 1.2rem;
+            margin-top: 0.5rem;
+            opacity: 0.9;
+        }
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .challenges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .challenge-card {
+            flex: 1 1 300px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+        }
+        .challenge-card h3 {
+            color: #4ca1af;
+            margin-top: 0;
+        }
+        .techniques {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .technique-card {
+            flex: 1 1 300px;
+            background: #edf7fa;
+            border-left: 4px solid #4ca1af;
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+        }
+        .technique-card h3 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 1.5rem 0;
+            margin-top: 3rem;
+        }
+        .highlight {
+            background-color: #faffbd;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Keystroke Dynamics for Biometric Authentication</h1>
+            <div class="subtitle">Identifying Individuals Through Random Keystroke Patterns</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h2>Research Overview</h2>
+            <p>Our research focuses on developing advanced methods to identify individuals based on their unique keystroke patterns. This behavioral biometric approach analyzes how users type on keyboards, measuring timing patterns between keystrokes, key hold times, and other typing behaviors to create a distinctive digital fingerprint for each user.</p>
+            
+            <p>Unlike traditional authentication methods, keystroke dynamics offers a continuous authentication system that can verify a user's identity throughout an entire session, not just at login, providing enhanced security for digital environments.</p>
+        </div>
+
+        <h2>Current Authentication Challenges</h2>
+        <div class="challenges">
+            <div class="challenge-card">
+                <h3>Facial Recognition Limitations</h3>
+                <ul>
+                    <li>Susceptible to spoofing attacks using photos or videos</li>
+                    <li>Performance degradation under poor lighting conditions</li>
+                    <li>Privacy concerns regarding facial data collection and storage</li>
+                    <li>Accuracy issues with facial changes (aging, makeup, accessories)</li>
+                    <li>Hardware requirements (high-quality cameras)</li>
+                </ul>
+            </div>
+
+            <div class="challenge-card">
+                <h3>Fingerprint Recognition Issues</h3>
+                <ul>
+                    <li>Physical contact requirement raises hygiene concerns</li>
+                    <li>Susceptible to artificial fingerprint replicas</li>
+                    <li>Reduced accuracy with damaged fingerprints or skin conditions</li>
+                    <li>Specialized hardware requirements</li>
+                    <li>Irreplaceable if compromised (can't change fingerprints)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Keystroke Dynamics Advantages</h2>
+            <p>Keystroke dynamics offers several advantages as a biometric authentication method:</p>
+            <ul>
+                <li><span class="highlight">Non-invasive collection</span> - Data gathered during normal computer usage</li>
+                <li><span class="highlight">Hardware independence</span> - Uses existing keyboards without additional sensors</li>
+                <li><span class="highlight">Continuous authentication</span> - Monitors user identity throughout entire sessions</li>
+                <li><span class="highlight">Difficult to replicate</span> - Typing patterns involve complex neurophysiological factors</li>
+                <li><span class="highlight">Adaptable</span> - Can adjust to gradual changes in typing patterns over time</li>
+            </ul>
+        </div>
+
+        <h2>Unsupervised Learning Research Techniques</h2>
+        <div class="techniques">
+            <div class="technique-card">
+                <h3>Keystroke Clustering (K-means)</h3>
+                <p>Our research employs K-means clustering algorithms to identify natural groupings within keystroke data, allowing for:</p>
+                <ul>
+                    <li>Identification of distinct typing pattern categories</li>
+                    <li>Detection of pattern variations within individual users</li>
+                    <li>Establishment of behavioral baseline standards</li>
+                    <li>Improved anomaly detection for potential unauthorized access</li>
+                </ul>
+            </div>
+
+            <div class="technique-card">
+                <h3>Dimensionality Reduction</h3>
+                <p>We leverage dimensionality reduction techniques to:</p>
+                <ul>
+                    <li>Minimize noise in high-dimensional keystroke datasets</li>
+                    <li>Extract the most significant features from complex typing patterns</li>
+                    <li>Enhance computational efficiency of authentication algorithms</li>
+                    <li>Improve visualization of user typing behaviors across multiple dimensions</li>
+                </ul>
+            </div>
+
+            <div class="technique-card">
+                <h3>Principal Component Analysis (PCA)</h3>
+                <p>PCA serves as a crucial analytical tool in our research by:</p>
+                <ul>
+                    <li>Identifying the most distinguishing features in keystroke patterns</li>
+                    <li>Reducing the feature space while preserving classification accuracy</li>
+                    <li>Enabling more efficient real-time authentication processing</li>
+                    <li>Facilitating clear visualization of user separability in lower dimensions</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Current Research Focus</h2>
+            <p>Our team is currently investigating how random keystroke sequences, rather than fixed text input, can enhance biometric identification accuracy. By analyzing unpredictable typing patterns, we aim to develop more robust authentication systems resistant to imitation attacks and applicable across diverse user populations.</p>
+            
+            <p>The research incorporates advanced machine learning algorithms to continuously improve identification accuracy and adapt to subtle changes in user typing behaviors over time.</p>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>© 2025 Keystroke Biometrics Research Lab | Contact: research@keystrokedynamics.org</p>
+        </div>
+    </footer>
+</body>
+</html>
