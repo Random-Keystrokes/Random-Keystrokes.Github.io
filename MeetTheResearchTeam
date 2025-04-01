@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meet Our Researchers | Keystroke Dynamics Biometrics Research</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+        header {
+            background: linear-gradient(to right, #2c3e50, #4ca1af);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        nav {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            justify-content: center;
+        }
+        nav ul li {
+            padding: 1rem 1.5rem;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        nav ul li a:hover {
+            color: #4ca1af;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #4ca1af;
+            padding-bottom: 0.5rem;
+            margin-top: 2rem;
+        }
+        .subtitle {
+            font-size: 1.2rem;
+            margin-top: 0.5rem;
+            opacity: 0.9;
+        }
+        .intro {
+            text-align: center;
+            margin: 2rem 0;
+        }
+        .intro p {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .researcher-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2.5rem;
+            overflow: hidden;
+            display: flex;
+            flex-direction: row;
+        }
+        .researcher-image {
+            flex: 0 0 300px;
+            background-color: #f0f0f0;
+        }
+        .researcher-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .researcher-info {
+            flex: 1;
+            padding: 2rem;
+        }
+        .researcher-info h3 {
+            color: #2c3e50;
+            margin-top: 0;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        .researcher-title {
+            color: #4ca1af;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        .researcher-bio {
+            margin-bottom: 1.5rem;
+        }
+        .research-interests {
+            background-color: #f5f9fa;
+            padding: 1rem;
+            border-radius: 6px;
+            border-left: 4px solid #4ca1af;
+        }
+        .research-interests h4 {
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+        .contact-info {
+            display: flex;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+        }
+        .contact-info div {
+            margin-right: 1.5rem;
+        }
+        .contact-info i {
+            color: #4ca1af;
+            margin-right: 0.5rem;
+        }
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 1.5rem 0;
+            margin-top: 3rem;
+        }
+        @media (max-width: 768px) {
+            .researcher-card {
+                flex-direction: column;
+            }
+            .researcher-image {
+                flex: 0 0 auto;
+                height: 300px;
+            }
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            nav ul li {
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Meet Our Researchers</h1>
+            <div class="subtitle">The Team Behind Keystroke Dynamics Biometrics Research</div>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="meet-our-researchers.html">Meet Our Researchers</a></li>
+            <li><a href="research.html">Research</a></li>
+            <li><a href="publications.html">Publications</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="intro">
+            <h2>Our Research Team</h2>
+            <p>Our interdisciplinary team combines expertise in cybersecurity, industrial engineering, computer science, and machine learning to advance the field of behavioral biometrics through keystroke dynamics research.</p>
+        </div>
+
+        <div class="researcher-card">
+            <div class="researcher-image">
+                <img src="/api/placeholder/400/500" alt="Jacqueline Bruce-Blake, Principal Researcher">
+            </div>
+            <div class="researcher-info">
+                <h3>Jacqueline Bruce-Blake</h3>
+                <div class="researcher-title">Principal Researcher, PhD Student</div>
+                <div class="researcher-bio">
+                    <p>Jacqueline Bruce-Blake leads our keystroke dynamics research team at Binghamton University, where she is pursuing her PhD in System Science and Industrial Engineering. Her pioneering work focuses on developing novel methods for identifying individuals through their unique typing patterns using advanced machine learning techniques.</p>
+                    <p>With a background in both computer science and behavioral analysis, Jacqueline brings a unique interdisciplinary approach to biometric authentication research. Her work has been instrumental in developing new frameworks for continuous authentication in digital environments.</p>
+                </div>
+                <div class="research-interests">
+                    <h4>Research Interests:</h4>
+                    <ul>
+                        <li>Behavioral biometrics and continuous authentication systems</li>
+                        <li>Unsupervised machine learning for pattern recognition</li>
+                        <li>Cybersecurity and user identity verification</li>
+                        <li>Human-computer interaction</li>
+                        <li>Privacy-preserving authentication methods</li>
+                    </ul>
+                </div>
+                <div class="contact-info">
+                    <div><i>📧</i> jbruce@binghamton.edu</div>
+                    <div><i>🔗</i> <a href="#">ResearchGate Profile</a></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="researcher-card">
+            <div class="researcher-image">
+                <img src="/api/placeholder/400/500" alt="Dr. Michael Chen, Faculty Advisor">
+            </div>
+            <div class="researcher-info">
+                <h3>Dr. Michael Chen</h3>
+                <div class="researcher-title">Faculty Advisor, Associate Professor of Computer Science</div>
+                <div class="researcher-bio">
+                    <p>Dr. Michael Chen oversees the Keystroke Dynamics Research Lab at Binghamton University. With over 15 years of experience in cybersecurity and machine learning, Dr. Chen has published extensively on behavioral biometrics and their applications in security systems.</p>
+                    <p>His collaborative approach to research has fostered partnerships with industry leaders in cybersecurity, leading to practical implementations of the team's theoretical work in real-world authentication systems.</p>
+                </div>
+                <div class="research-interests">
+                    <h4>Research Interests:</h4>
+                    <ul>
+                        <li>Multimodal biometric systems</li>
+                        <li>Machine learning for cybersecurity</li>
+                        <li>Adversarial machine learning</li>
+                        <li>Zero-trust security models</li>
+                        <li>Authentication protocols for high-security environments</li>
+                    </ul>
+                </div>
+                <div class="contact-info">
+                    <div><i>📧</i> mchen@binghamton.edu</div>
+                    <div><i>🔗</i> <a href="#">Google Scholar Profile</a></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="researcher-card">
+            <div class="researcher-image">
+                <img src="/api/placeholder/400/500" alt="Sarah Williams, Research Assistant">
+            </div>
+            <div class="researcher-info">
+                <h3>Sarah Williams</h3>
+                <div class="researcher-title">Research Assistant, MS Student in Data Science</div>
+                <div class="researcher-bio">
+                    <p>Sarah Williams specializes in data analysis and visualization for the Keystroke Dynamics Research team. Her expertise in statistical modeling has been crucial in developing efficient algorithms for pattern recognition in typing behavior.</p>
+                    <p>Sarah's recent work focuses on dimensionality reduction techniques and their application to large-scale biometric datasets, significantly improving the efficiency of the team's authentication models.</p>
+                </div>
+                <div class="research-interests">
+                    <h4>Research Interests:</h4>
+                    <ul>
+                        <li>Statistical modeling of behavioral patterns</li>
+                        <li>High-dimensional data visualization</li>
+                        <li>Unsupervised learning algorithms</li>
+                        <li>Feature extraction and selection</li>
+                        <li>Real-time analytics for authentication systems</li>
+                    </ul>
+                </div>
+                <div class="contact-info">
+                    <div><i>📧</i> swillia@binghamton.edu</div>
+                    <div><i>🔗</i> <a href="#">LinkedIn Profile</a></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="researcher-card">
+            <div class="researcher-image">
+                <img src="/api/placeholder/400/500" alt="David Park, Research Engineer">
+            </div>
+            <div class="researcher-info">
+                <h3>David Park</h3>
+                <div class="researcher-title">Research Engineer, PhD Candidate in Computer Engineering</div>
+                <div class="researcher-bio">
+                    <p>David Park brings valuable technical expertise to the team as a research engineer focused on implementing and optimizing the keystroke dynamics authentication algorithms. His background in embedded systems provides critical insights for developing lightweight authentication solutions.</p>
+                    <p>David's current research explores how keystroke dynamics can be integrated into resource-constrained environments and IoT devices, extending the application of behavioral biometrics beyond traditional computing platforms.</p>
+                </div>
+                <div class="research-interests">
+                    <h4>Research Interests:</h4>
+                    <ul>
+                        <li>Embedded systems security</li>
+                        <li>Real-time processing of biometric data</li>
+                        <li>IoT authentication protocols</li>
+                        <li>Edge computing for biometric processing</li>
+                        <li>Energy-efficient authentication algorithms</li>
+                    </ul>
+                </div>
+                <div class="contact-info">
+                    <div><i>📧</i> dpark@binghamton.edu</div>
+                    <div><i>🔗</i> <a href="#">GitHub Profile</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>© 2025 Keystroke Biometrics Research Lab | Binghamton University</p>
+            <p>Contact: research@keystrokedynamics.org</p>
+        </div>
+    </footer>
+</body>
+</html>
