@@ -189,7 +189,7 @@
                 <div class="researcher-title">Principal Researcher, PhD Student</div>
                 <div class="researcher-bio">
                     <p>Jacqueline Bruce-Blake leads our keystroke dynamics research team at Binghamton University, where she is pursuing her PhD in System Science and Industrial Engineering. Her pioneering work focuses on developing novel methods for identifying individuals through their unique typing patterns using advanced machine learning techniques.</p>
-                    <p>With a background in both computer science and behavioral analysis, Jacqueline brings a unique interdisciplinary approach to biometric authentication research. Her work has been instrumental in developing new frameworks for continuous authentication in digital environments.</p>
+                    <p>With a background in both computer science, Complexity and the interdisciplinary field of System Science, Jacqueline brings a unique approach to biometric authentication research. Her work has been instrumental in developing new frameworks for continuous authentication in digital environments.</p>
                 </div>
                 <div class="research-interests">
                     <h4>Research Interests:</h4>
@@ -202,7 +202,7 @@
                     </ul>
                 </div>
                 <div class="contact-info">
-                    <div><i>📧</i> jbruce@binghamton.edu</div>
+                    <div><i>📧</i> jblake3@binghamton.edu</div>
                     <div><i>🔗</i> <a href="#">ResearchGate Profile</a></div>
                 </div>
             </div>
@@ -210,88 +210,34 @@
 
         <div class="researcher-card">
             <div class="researcher-image">
-                <img src="/api/placeholder/400/500" alt="Dr. Michael Chen, Faculty Advisor">
+                <img src="/api/placeholder/400/500" alt="Hiroki Sayama, D.Sc., Faculty Advisor">
             </div>
             <div class="researcher-info">
-                <h3>Dr. Michael Chen</h3>
-                <div class="researcher-title">Faculty Advisor, Associate Professor of Computer Science</div>
+                <h3>Dr. Hiroki Sayama</h3>
+                <div class="researcher-title">Executive Assistant Dean for Graduate Studies, Thomas J. Watson College of Engineering and Applied Science</div>
                 <div class="researcher-bio">
-                    <p>Dr. Michael Chen oversees the Keystroke Dynamics Research Lab at Binghamton University. With over 15 years of experience in cybersecurity and machine learning, Dr. Chen has published extensively on behavioral biometrics and their applications in security systems.</p>
-                    <p>His collaborative approach to research has fostered partnerships with industry leaders in cybersecurity, leading to practical implementations of the team's theoretical work in real-world authentication systems.</p>
+                    <p>Dr. SUNY Distinguished Professor, School of Systems Science and Industrial Engineering
+Director, Binghamton Center of Complex Systems (CoCo)
+Director, Graduate Program in Systems Science
+Director, Advanced Graduate Certificate Program in Complex Systems Science and Engineering
+Binghamton University, State University of New York. With over 15 years of experience in cybersecurity and machine learning, Dr. Sayama has published extensively on behavioral biometrics and their applications in security systems.</p>
+                    <p>His collaborative approach to research has fostered partnerships with industry leaders in Complexity science and Artificial Intelligence, leading to practical implementations of the team's theoretical work in real-world authentication systems.</p>
                 </div>
                 <div class="research-interests">
                     <h4>Research Interests:</h4>
                     <ul>
-                        <li>Multimodal biometric systems</li>
-                        <li>Machine learning for cybersecurity</li>
-                        <li>Adversarial machine learning</li>
-                        <li>Zero-trust security models</li>
-                        <li>Authentication protocols for high-security environments</li>
+                        <li>Artificial Life</li>
+                        <li>Complexity science</li>
+                        <li>machine learning</li>
+            
                     </ul>
                 </div>
                 <div class="contact-info">
-                    <div><i>📧</i> mchen@binghamton.edu</div>
+                    <div><i>📧</i> sayama@binghamton.edu</div>
                     <div><i>🔗</i> <a href="#">Google Scholar Profile</a></div>
                 </div>
             </div>
         </div>
-
-        <div class="researcher-card">
-            <div class="researcher-image">
-                <img src="/api/placeholder/400/500" alt="Sarah Williams, Research Assistant">
-            </div>
-            <div class="researcher-info">
-                <h3>Sarah Williams</h3>
-                <div class="researcher-title">Research Assistant, MS Student in Data Science</div>
-                <div class="researcher-bio">
-                    <p>Sarah Williams specializes in data analysis and visualization for the Keystroke Dynamics Research team. Her expertise in statistical modeling has been crucial in developing efficient algorithms for pattern recognition in typing behavior.</p>
-                    <p>Sarah's recent work focuses on dimensionality reduction techniques and their application to large-scale biometric datasets, significantly improving the efficiency of the team's authentication models.</p>
-                </div>
-                <div class="research-interests">
-                    <h4>Research Interests:</h4>
-                    <ul>
-                        <li>Statistical modeling of behavioral patterns</li>
-                        <li>High-dimensional data visualization</li>
-                        <li>Unsupervised learning algorithms</li>
-                        <li>Feature extraction and selection</li>
-                        <li>Real-time analytics for authentication systems</li>
-                    </ul>
-                </div>
-                <div class="contact-info">
-                    <div><i>📧</i> swillia@binghamton.edu</div>
-                    <div><i>🔗</i> <a href="#">LinkedIn Profile</a></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="researcher-card">
-            <div class="researcher-image">
-                <img src="/api/placeholder/400/500" alt="David Park, Research Engineer">
-            </div>
-            <div class="researcher-info">
-                <h3>David Park</h3>
-                <div class="researcher-title">Research Engineer, PhD Candidate in Computer Engineering</div>
-                <div class="researcher-bio">
-                    <p>David Park brings valuable technical expertise to the team as a research engineer focused on implementing and optimizing the keystroke dynamics authentication algorithms. His background in embedded systems provides critical insights for developing lightweight authentication solutions.</p>
-                    <p>David's current research explores how keystroke dynamics can be integrated into resource-constrained environments and IoT devices, extending the application of behavioral biometrics beyond traditional computing platforms.</p>
-                </div>
-                <div class="research-interests">
-                    <h4>Research Interests:</h4>
-                    <ul>
-                        <li>Embedded systems security</li>
-                        <li>Real-time processing of biometric data</li>
-                        <li>IoT authentication protocols</li>
-                        <li>Edge computing for biometric processing</li>
-                        <li>Energy-efficient authentication algorithms</li>
-                    </ul>
-                </div>
-                <div class="contact-info">
-                    <div><i>📧</i> dpark@binghamton.edu</div>
-                    <div><i>🔗</i> <a href="#">GitHub Profile</a></div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <footer>
         <div class="container">
