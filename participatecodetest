@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keystroke Biometrics Data Collection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 5px 10px 0;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .timer {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .progress-container {
+            width: 100%;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .progress-bar {
+            height: 20px;
+            background-color: #4CAF50;
+            border-radius: 5px;
+            width: 0%;
+            transition: width 1s linear;
+        }
+        .results {
+            white-space: pre-wrap;
+            background-color: #f8f8f8;
+            padding: 10px;
+            border-radius: 4px;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+        }
+        .download-btn {
+            background-color: #2196F3;
+        }
+        .email-btn {
+            background-color: #FF9800;
+        }
+        .consent-form {
+            margin-bottom: 20px;
+        }
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        #emailStatus {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+        .status-success {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
+        }
+        .status-error {
+            background-color: #ffebee;
+            color: #c62828;
+            border: 1px solid #ffcdd2;
+        }
+        .participant-info {
+            margin-bottom: 15px;
+        }
+        .participant-info input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Keystroke Biometrics Data Collection</h1>
+    
+    <div class="consent-form container">
+        <h2>Informed Consent</h2>
+        <p>This research study collects keystroke timing data for biometric research purposes. Your participation is voluntary.</p>
+        <p>We will collect:</p>
+        <ul>
+            <li>Key press duration (how long each key is held)</li>
+            <li>Flight time (time between releasing one key and pressing the next)</li>
+        </ul>
+        <p>No personal information or actual keystrokes content will be stored or transmitted. Data will be sent to the research team for analysis.</p>
+        <p>By clicking "I Consent" and participating, you agree to these terms.</p>
+        <button id="consentBtn">I Consent</button>
+    </div>
+
+    <div id="testContainer" class="container" style="display: none;">
+        <h2>Random Keystroke Collection</h2>
+        
+        <div class="participant-info">
+            <label for="participantId">Participant ID (optional):</label>
+            <input type="text" id="participantId" placeholder="Enter participant ID if provided by researcher">
+        </div>
+        
+        <p>Please type random keystrokes in the box below for 60 seconds. Try to type naturally without any specific pattern.</p>
+        <p>Timer will start when you begin typing.</p>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="timer" id="timer">60</div>
+        
+        <textarea id="inputArea" placeholder="Start typing random keystrokes here..."></textarea>
+        <p><small>Note: The content of what you type is not being recorded, only the timing patterns.</small></p>
+        
+        <div class="button-group">
+            <button id="startBtn">Start New Session</button>
+            <button id="downloadBtn" class="download-btn" disabled>Download Data</button>
+            <button id="emailBtn" class="email-btn" disabled>Email Data to Researcher</button>
+        </div>
+        
+        <div id="emailStatus"></div>
+    </div>
+    
+    <div id="resultsContainer" class="container" style="display: none;">
+        <h2>Results Preview</h2>
+        <p>Here's a preview of the collected keystroke timing data:</p>
+        <div class="results" id="resultsDisplay"></div>
+    </div>
+
+    <script>
+        let keyData = [];
+        let isRecording = false;
+        let timerInterval;
+        let timeRemaining = 60;
+        let startTime = 0;
+        const researcherEmail = "jblake3@binghamton.edu"; // Researcher's email address
+        
+        document.getElementById('consentBtn').addEventListener('click', function() {
+            document.querySelector('.consent-form').style.display = 'none';
+            document.getElementById('testContainer').style.display = 'block';
+        });
+
+        document.getElementById('startBtn').addEventListener('click', resetSession);
+        document.getElementById('downloadBtn').addEventListener('click', downloadData);
+        document.getElementById('emailBtn').addEventListener('click', emailData);
+
+        const inputArea = document.getElementById('inputArea');
+        
+        inputArea.addEventListener('keydown', function(event) {
+            if (!isRecording) {
+                startRecording();
+            }
+            
+            const timestamp = performance.now() - startTime;
+            keyData.push({
+                event: 'keydown',
+                key: event.code,
+                timestamp: timestamp
+            });
+        });
+
+        inputArea.addEventListener('keyup', function(event) {
+            if (!isRecording) return;
+            
+            const timestamp = performance.now() - startTime;
+            keyData.push({
+                event: 'keyup',
+                key: event.code,
+                timestamp: timestamp
+            });
+        });
+
+        function startRecording() {
+            isRecording = true;
+            keyData = [];
+            startTime = performance.now();
+            timeRemaining = 60;
+            
+            document.getElementById('timer').textContent = timeRemaining;
+            document.getElementById('progressBar').style.width = '0%';
+            
+            timerInterval = setInterval(updateTimer, 1000);
+            document.getElementById('inputArea').disabled = false;
+            document.getElementById('startBtn').disabled = true;
+            
+            // Hide status message if visible
+            document.getElementById('emailStatus').style.display = 'none';
+        }
+
+        function updateTimer() {
+            timeRemaining--;
+            document.getElementById('timer').textContent = timeRemaining;
+            
+            // Update progress bar
+            const progressPercentage = ((60 - timeRemaining) / 60) * 100;
+            document.getElementById('progressBar').style.width = progressPercentage + '%';
+            
+            if (timeRemaining <= 0) {
+                endRecording();
+            }
+        }
+
+        function endRecording() {
+            isRecording = false;
+            clearInterval(timerInterval);
+            
+            document.getElementById('inputArea').disabled = true;
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('downloadBtn').disabled = false;
+            document.getElementById('emailBtn').disabled = false;
+            
+            processData();
+        }
+
+        function resetSession() {
+            document.getElementById('inputArea').value = '';
+            document.getElementById('inputArea').disabled = false;
+            document.getElementById('downloadBtn').disabled = true;
+            document.getElementById('emailBtn').disabled = true;
+            document.getElementById('resultsContainer').style.display = 'none';
+            document.getElementById('emailStatus').style.display = 'none';
+            timeRemaining = 60;
+            document.getElementById('timer').textContent = timeRemaining;
+            document.getElementById('progressBar').style.width = '0%';
+            keyData = [];
+        }
+
+        function processData() {
+            const pressEvents = {};
+            const keyMetrics = [];
+            
+            // Process key press durations
+            for (let i = 0; i < keyData.length; i++) {
+                const event = keyData[i];
+                
+                if (event.event === 'keydown') {
+                    pressEvents[event.key] = event.timestamp;
+                } else if (event.event === 'keyup') {
+                    if (pressEvents[event.key] !== undefined) {
+                        const duration = event.timestamp - pressEvents[event.key];
+                        
+                        keyMetrics.push({
+                            key: event.key,
+                            pressDuration: duration,
+                            pressTime: pressEvents[event.key],
+                            releaseTime: event.timestamp
+                        });
+                        
+                        delete pressEvents[event.key];
+                    }
+                }
+            }
+            
+            // Calculate flight times (time between releasing a key and pressing the next)
+            for (let i = 0; i < keyMetrics.length - 1; i++) {
+                const current = keyMetrics[i];
+                const next = keyMetrics[i + 1];
+                
+                keyMetrics[i].flightTime = next.pressTime - current.releaseTime;
+            }
+            
+            // Display sample of the results
+            displayResults(keyMetrics);
+        }
+
+        function displayResults(metrics) {
+            const resultsElement = document.getElementById('resultsDisplay');
+            document.getElementById('resultsContainer').style.display = 'block';
+            
+            // Create a sample of the data to show
+            let resultText = "Key\tPress Duration (ms)\tFlight Time (ms)\n";
+            resultText += "------------------------------------------------\n";
+            
+            const sampleSize = Math.min(20, metrics.length);
+            for (let i = 0; i < sampleSize; i++) {
+                const metric = metrics[i];
+                resultText += `${metric.key}\t${metric.pressDuration.toFixed(2)}\t${metric.flightTime ? metric.flightTime.toFixed(2) : 'N/A'}\n`;
+            }
+            
+            if (metrics.length > 20) {
+                resultText += `\n... ${metrics.length - 20} more entries not shown ...`;
+            }
+            
+            resultsElement.textContent = resultText;
+            resultsElement.style.display = 'block';
+        }
+
+        function prepareData() {
+            // Format the raw data
+            let csvContent = "key,event,timestamp\n";
+            
+            keyData.forEach(record => {
+                csvContent += `${record.key},${record.event},${record.timestamp}\n`;
+            });
+            
+            // Calculate metrics
+            let metricsContent = "key,pressDuration,pressTime,releaseTime,flightTime\n";
+            const pressEvents = {};
+            const keyMetrics = [];
+            
+            for (let i = 0; i < keyData.length; i++) {
+                const event = keyData[i];
+                
+                if (event.event === 'keydown') {
+                    pressEvents[event.key] = event.timestamp;
+                } else if (event.event === 'keyup') {
+                    if (pressEvents[event.key] !== undefined) {
+                        const duration = event.timestamp - pressEvents[event.key];
+                        
+                        keyMetrics.push({
+                            key: event.key,
+                            pressDuration: duration,
+                            pressTime: pressEvents[event.key],
+                            releaseTime: event.timestamp
+                        });
+                        
+                        delete pressEvents[event.key];
+                    }
+                }
+            }
+            
+            for (let i = 0; i < keyMetrics.length - 1; i++) {
+                const current = keyMetrics[i];
+                const next = keyMetrics[i + 1];
+                
+                keyMetrics[i].flightTime = next.pressTime - current.releaseTime;
+            }
+            
+            keyMetrics.forEach(metric => {
+                metricsContent += `${metric.key},${metric.pressDuration},${metric.pressTime},${metric.releaseTime},${metric.flightTime || ''}\n`;
+            });
+            
+            return {
+                rawData: csvContent,
+                metricsData: metricsContent
+            };
+        }
+
+        function downloadData() {
+            const data = prepareData();
+            
+            // Create blob and download link
+            const rawDataBlob = new Blob([data.rawData], { type: 'text/csv' });
+            const metricsBlob = new Blob([data.metricsData], { type: 'text/csv' });
+            
+            // Generate a timestamp for the filename
+            const date = new Date();
+            const timestamp = `${date.getFullYear()}${(date.getMonth()+1).toString().padStart(2,'0')}${date.getDate().toString().padStart(2,'0')}_${date.getHours().toString().padStart(2,'0')}${date.getMinutes().toString().padStart(2,'0')}`;
+            const participantId = document.getElementById('participantId').value || 'anonymous';
+            
+            // Create download links for both files
+            const rawDataUrl = URL.createObjectURL(rawDataBlob);
+            const rawDataLink = document.createElement('a');
+            rawDataLink.href = rawDataUrl;
+            rawDataLink.download = `keystroke_raw_data_${participantId}_${timestamp}.csv`;
+            rawDataLink.click();
+            
+            setTimeout(() => {
+                const metricsUrl = URL.createObjectURL(metricsBlob);
+                const metricsLink = document.createElement('a');
+                metricsLink.href = metricsUrl;
+                metricsLink.download = `keystroke_metrics_${participantId}_${timestamp}.csv`;
+                metricsLink.click();
+            }, 100); // Small delay between downloads
+        }
+
+        function emailData() {
+            const data = prepareData();
+            const participantId = document.getElementById('participantId').value || 'anonymous';
+            const date = new Date();
+            const timestamp = `${date.getFullYear()}${(date.getMonth()+1).toString().padStart(2,'0')}${date.getDate().toString().padStart(2,'0')}_${date.getHours().toString().padStart(2,'0')}${date.getMinutes().toString().padStart(2,'0')}`;
+            
+            // Create file names
+            const rawDataFilename = `keystroke_raw_data_${participantId}_${timestamp}.csv`;
+            const metricsFilename = `keystroke_metrics_${participantId}_${timestamp}.csv`;
+            
+            // Create email mailto link
+            // Note: This has limitations as most email clients limit the size of mailto data
+            // For real deployment, you would need a server-side solution
+            const subject = encodeURIComponent(`Keystroke Biometrics Data - Participant ${participantId}`);
+            const body = encodeURIComponent(`Keystroke biometrics data collected at ${new Date().toString()}.\n\nParticipant ID: ${participantId}\n\nNote: Raw data and metrics are attached as CSV files.`);
+            
+            // Show status message
+            const statusElement = document.getElementById('emailStatus');
+            statusElement.className = 'status-success';
+            statusElement.textContent = `Please use the download button to save the data files, then attach them to an email to ${researcherEmail}.`;
+            statusElement.style.display = 'block';
+            
+            // For real implementation, you would use one of these approaches:
+            // 1. A server-side API endpoint that handles sending emails with attachments
+            // 2. Integration with a form submission service that can handle file attachments
+            // 3. Direct upload to a cloud storage with email notification
+            
+            // For demonstration purposes, we'll open the default email client
+            // with pre-filled fields (but this won't include attachments)
+            const mailtoLink = `mailto:${researcherEmail}?subject=${subject}&body=${body}`;
+            window.open(mailtoLink);
+        }
+    </script>
+</body>
+</html>
