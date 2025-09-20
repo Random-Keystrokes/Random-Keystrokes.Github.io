@@ -1,0 +1,41 @@
+<script>
+/* simple keystroke capture + batching */
+const batchSize = 50;
+const flushIntervalMs = 5000;
+let buffer = [];
+let sessionId = crypto.randomUUID();
+
+document.addEventListener('keydown', (e) => {
+  // only capture if user gave consent (replace '#consent' with your consent checkbox)
+  const consent = document.querySelector('#consent');
+  if (!consent || !consent.checked) return;
+
+  // record minimal fields — avoid capturing full text if not required
+  buffer.push({
+    t: Date.now(),
+    k: e.key,          // or e.code if you prefer
+    type: 'keydown',
+    session: sessionId
+  });
+
+  if (buffer.length >= batchSize) flushBuffer();
+});
+
+// periodic flush
+setInterval(flushBuffer, flushIntervalMs);
+
+// flush on page unload (best-effort)
+window.addEventListener('beforeunload', flushBuffer);
+
+function flushBuffer() {
+  if (buffer.length === 0) return;
+  const payload = {
+    events: buffer.splice(0), // copy & clear
+    meta: { userAgent: navigator.userAgent, ts: Date.now(), session: sessionId }
+  };
+  // send to your backend
+  navigator.sendBeacon('/collect', JSON.stringify(payload)); // sendBeacon is fire-and-forget and uses POST
+  // alternativley use fetch:
+  // fetch('/collect', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)});
+}
+</script>
