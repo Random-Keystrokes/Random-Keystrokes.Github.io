@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Tester</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles.css">
+    <script type="module" src="script.js"></script>
+    <script>  // Import the functions you need from the SDKs you need
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+    import {getFirestore, addDoc, collection } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js"; 
+
+
+  // Your web app's Firebase configuration
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBIXlMvgRjH7mbi2ERH18PWQlyXxfWYT0I",
+            authDomain: "test2-questionnaire.firebaseapp.com",
+            projectId: "test2-questionnaire",
+            storageBucket: "test2-questionnaire.firebasestorage.app",
+            messagingSenderId: "136415138046",
+            appId: "1:136415138046:web:57acf5f2da8084101a15af"
+        };
+
+        
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        window.db = db;
+        window.addDoc = addDoc;
+        window.collection = collection;
+        rules_version = '2';
+  </script>
+</head>
+<body>
+    
+    <main class="container-md" id="main-container">
+        <form action="submit" id="questionnaire">
+            <section class="participation-information">
+            <h1>Research Participant Consent Form</h1>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia dolor eum nihil optio, recusandae, libero excepturi iusto doloremque similique quis fugit quae odio expedita molestiae saepe aspernatur dignissimos ab possimus!
+            </section>
+            <section>
+                <h2>What is your level of English proficiency?</h2>
+                
+                <select class="form-select form-select-sm" id="eng-proficiency" aria-label="Small select example" required>
+                <!-- <option selected>Open this select menu</option> -->
+                <option value="Basic">Basic</option>
+                <option value="Intermediate">Intermediate</option>
+                <option value="Fluent">Fluent</option>
+                </select>
+            </section>
+
+            <section>
+                <h2>Do you have the ability to use a <strong>standard keyboard computer</strong>?</h2>
+                    <div class="form-check">
+                        <label class="form-check-label keyboard"  for="radioDefault1">
+                            <input type="radio" name="radioDefault-keyboard" id="keyboard-yes" value="Yes" required>
+                            Yes
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label keyboard" for="radioDefault2">
+                            <input type="radio" name="radioDefault-keyboard" id="keyboard-no"  value="No">
+                            No
+                        </label>
+                    </div>
+            </section>
+
+            <section>
+                <h2>Do you consent to be a willing participant in this research study given the scope of participation stated above? Do you understand what participation entails?(Select which applies)</h2>
+
+                <select class="form-select form-select-sm" aria-label="Small select example" id="consent" required>
+                    <option value="Yes">Yes, I willingly consent and understand what participation entails.</option>
+                    <option value="No">No, I am not willing to give consent to participate.</option>
+                </select>
+            </section>
+
+            <section>
+                <h2>Do you have access to stable internet connetion.(This study is conducted remotely.)</h2>
+                    <div class="form-check" id="connection">
+                        <label class="form-check-label connection" for="radioDefault1">
+                            <input type="radio" name="radioDefault-connection" id="connection-yes" value="Yes" required>
+                            Yes
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label connection" for="radioDefault2">
+                            <input type="radio" name="radioDefault-connection" id="connection-no"  value="No" required>
+                            No
+                        </label>
+                    </div>
+            </section>
+            <section>
+                <button type="submit">Submit</button>
+            </section>
+        </form>
+    </main>
+
+        
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+</html>
