@@ -260,10 +260,20 @@
     <div class="consent-form container">
         <h2>Informed Consent</h2>
         <p>This research study collects keystroke timing data for biometric research purposes. Your participation is voluntary.</p>
-        <p>We will collect:</p>
+        <p>It is your choice whether to participate or not. There will be no penalty or loss of benefits to which you are otherwise entitled if you choose not to participate or to discontinue participation.</p>
+        <p>The purpose of this research is to explore patterns in human typing of random keystroke (how individuals type unpredictable or non-repetitive sequences) can serve as a unique behavioral biometric for user identification and subsequently, authentication. By analyzing timing and rhythm in keystrokes, the study aims to contribute to the development of non-intrusive, secure, and user-friendly cybersecurity authentication methods.
+            We will collect:</p>
         <ul>
             <li>Key press duration (how long each key is held)</li>
             <li>Flight time (time between releasing one key and pressing the next)</li>
+        </ul>
+        <ul>
+            •	You are invited to participate because you are 
+                <li>Age 18 or older </li>
+                <li>You are English language proficient </li>
+                <li>You have access to a keyboard and ability to type </li>
+                <li>You can decide to agree to participate</li>
+
         </ul>
         <p>No personal information or actual keystrokes content will be stored or transmitted.</p>
         <p>By clicking "I Consent" and participating, you agree to these terms.</p>
@@ -382,7 +392,55 @@
             document.getElementById('progressBar').style.width = '0%';
             keyData = [];
         }
+// Send CSV files via email instead of downloading
+async function emailCSVFiles(rawDataBlob, metricsBlob, timestamp) {
+    const formData = new FormData();
+    
+    // Add CSV files to form data
+    formData.append('rawData', rawDataBlob, `keystroke_raw_data_${timestamp}.csv`);
+    formData.append('metrics', metricsBlob, `keystroke_metrics_${timestamp}.csv`);
+    formData.append('timestamp', timestamp);
+    formData.append('recipientEmail', 'Jblake3@binghamton.edu');
+    
+    try {
+        const response = await fetch('/api/email-keystroke-data/', {
+            method: 'POST',
+            body: formData
+        });
+        
+        if (response.ok) {
+            alert('Keystroke data has been successfully emailed!');
+        } else {
+            throw new Error('Failed to send email');
+        }
+    } catch (error) {
+        console.error('Error sending email:', error);
+        alert('Failed to send email. Please try again.');
+        
+        // Fallback to download if email fails
+        downloadCSVFiles(rawDataBlob, metricsBlob, timestamp);
+    }
+}
 
+// Fallback download function
+function downloadCSVFiles(rawDataBlob, metricsBlob, timestamp) {
+    const rawDataUrl = URL.createObjectURL(rawDataBlob);
+    const rawDataLink = document.createElement('a');
+    rawDataLink.href = rawDataUrl;
+    rawDataLink.download = `keystroke_raw_data_${timestamp}.csv`;
+    rawDataLink.click();
+    
+    setTimeout(() => {
+        const metricsUrl = URL.createObjectURL(metricsBlob);
+        const metricsLink = document.createElement('a');
+        metricsLink.href = metricsUrl;
+        metricsLink.download = `keystroke_metrics_${timestamp}.csv`;
+        metricsLink.click();
+    }, 1000);
+}
+
+// Replace your current code with:
+//emailCSVFiles(rawDataBlob, metricsBlob, timestamp);
         function processData() {
             const pressEvents = {};
             const keyMetrics = [];
