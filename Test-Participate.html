@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Random Keystroke Study - Survey</title>
+  <meta charset="UTF-8">
+</head>
+<body>
+  <h2>Participant Survey</h2>
+  <form id="surveyForm">
+    <label>Age Range:</label>
+    <select name="ageRange" required>
+      <option value="18-30">18–30</option>
+      <option value="31-40">31–40</option>
+      <option value="41-50">41–50</option>
+      <option value="51-60">51–60</option>
+      <option value="61-70">61–70</option>
+      <option value="71-80">71–80</option>
+      <option value="81-90">81–90</option>
+    </select>
+    <br><br>
+
+    <label>Rate your confidence with technology (0–5):</label>
+    <input type="number" name="techConfidence" min="0" max="5" required>
+    <br><br>
+
+    <label>Device Type:</label>
+    <select name="deviceType" required>
+      <option value="Desktop">Desktop</option>
+      <option value="Laptop">Laptop</option>
+      <option value="Mobile">Mobile</option>
+    </select>
+    <br><br>
+
+    <label>Typing Style:</label>
+    <select name="typingStyle" required>
+      <option value="Two finger pecking">Two finger pecking</option>
+      <option value="Some fingers">Some fingers</option>
+      <option value="All fingers (untrained)">All fingers (untrained)</option>
+      <option value="Touch typing (trained)">Touch typing (trained)</option>
+    </select>
+    <br><br>
+
+    <button type="submit">Submit & Continue</button>
+  </form>
+
+  <script>
+    const scriptURL = "//https://script.google.com/macros/s/AKfycbw9ILs9brMXea_8km0T1VZ7_s3pny9xNFKIrBlBypLp7VFcJphhvOzNXRtX6hLLuJcH/exec"; // Replace with your Web App URL
+
+    document.getElementById("surveyForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      // Generate unique alphanumeric userID
+      const userID = "ID-" + Math.random().toString(36).substring(2, 10).toUpperCase();
+
+      // Collect form data
+      const formData = new FormData(this);
+      const data = {
+        userID: userID,
+        ageRange: formData.get("ageRange"),
+        techConfidence: formData.get("techConfidence"),
+        deviceType: formData.get("deviceType"),
+        typingStyle: formData.get("typingStyle")
+      };
+
+      // Send data to Google Sheets
+      fetch(scriptURL, {
+        method: "POST",
+        body: JSON.stringify(data)
+      })
+      .then(response => {
+        if (response.ok) {
+          // Redirect to Keystroke Collection Page with userID
+          window.location.href = "https://random-keystrokes.github.io/Participate.html?userID=" + userID;
+        } else {
+          alert("Error submitting form. Please try again.");
+        }
+      })
+      .catch(error => {
+        console.error("Error!", error.message);
+      });
+    });
+  </script>
+</body>
+</html>
