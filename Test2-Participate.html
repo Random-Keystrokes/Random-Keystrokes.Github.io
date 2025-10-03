@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Random Keystroke Study</title>
+  <meta charset="UTF-8">
+</head>
+<body>
+  <h2>Keystroke Collection</h2>
+  <p id="userInfo"></p>
+  <p>Please type the following sentence below as naturally as possible:</p>
+  <blockquote>
+    The quick brown fox jumps over the lazy dog.
+  </blockquote>
+
+  <textarea id="typingArea" rows="5" cols="60" placeholder="Start typing here..."></textarea>
+
+  <button id="submitBtn">Submit Keystrokes</button>
+
+  <script>
+    // ===== Get userID from URL =====
+    const urlParams = new URLSearchParams(window.location.search);
+    const userID = urlParams.get("userID") || "UNKNOWN";
+
+    document.getElementById("userInfo").textContent = "Your Participant ID: " + userID;
+
+    // ===== Collect keystroke data =====
+    const typingArea = document.getElementById("typingArea");
+    let keystrokeData = [];
+
+    typingArea.addEventListener("keydown", function(e) {
+      keystrokeData.push({
+        key: e.key,
+        time: Date.now()
+      });
+    });
+
+    // ===== Submit data =====
+    const scriptURL = "YOUR_GOOGLE_APPS_SCRIPT_WEBAPP_URL"; // Replace with your Google Apps Script URL
+
+    document.getElementById("submitBtn").addEventListener("click", function() {
+      if (keystrokeData.length === 0) {
+        alert("No keystrokes recorded. Please type before submitting.");
+        return;
+      }
+
+      const payload = {
+        userID: userID,
+        keystrokes: keystrokeData
+      };
+
+      fetch(scriptURL, {
+        method: "POST",
+        body: JSON.stringify(payload)
+      })
+      .then(response => {
+        if (response.ok) {
+          alert("Thank you! Your keystrokes have been submitted.");
+          window.location.href = "https://random-keystrokes.github.io/ThankYou.html";
+        } else {
+          alert("Error submitting keystrokes. Please try again.");
+        }
+      })
+      .catch(error => {
+        console.error("Error!", error.message);
+      });
+    });
+  </script>
+</body>
+</html>
