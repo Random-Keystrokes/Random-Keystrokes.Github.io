@@ -442,6 +442,50 @@
             resultsElement.textContent = resultText;
             resultsElement.style.display = 'block';
         }
+/**
+ * Sends the keystroke data (as a CSV string) to your Google Apps Script.
+ * @param {string} csvString The string of data to save.
+ */
+        function submitKeystrokeData(csvString) {
+          // --- PASTE YOUR WEB APP URL HERE ---
+          const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzRARgoZ9ccgL_2izddeEyqzOCOay2z_9GpKR_ifHwhiDbW_zfXvXpZaR_fMl8OBu3V/exec';
+          // ------------------------------------
+        
+          // Use the Fetch API to send a POST request.
+          fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            headers: {
+              'Content-Type': 'text/plain;charset=utf-8',
+            },
+            body: csvString, // The CSV data is sent in the body of the request.
+          })
+          .then(response => response.json())
+          .then(data => {
+            // The script returns a JSON response: {result: "success"} or {result: "error"}.
+            if (data.result === 'success') {
+              console.log('Successfully saved file:', data.fileName);
+              alert('Thank you! Your anonymous data has been submitted successfully.');
+            } else {
+              console.error('There was an error saving the data:', data.error);
+              alert('Sorry, there was an error submitting your data.');
+            }
+          })
+          .catch(error => {
+            // This catches network errors.
+            console.error('Fetch Error:', error);
+            alert('Sorry, there was a network error submitting your data.');
+          });
+        }
+
+// --- EXAMPLE OF HOW TO USE IT ---
+// After your code has generated the CSV data for the user to download,
+// call the function with that same data.
+//
+// For example:
+// let myGeneratedCSV = "key,pressDuration,pressTime,releaseTime,flightTime\nKeyL,130,10,140,-120\nKeyK,216,20,236,-92";
+// submitKeystrokeData(myGeneratedCSV);
 
         function downloadData() {
             // Format the data for download
