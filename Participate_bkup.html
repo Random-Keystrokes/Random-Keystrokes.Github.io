@@ -531,7 +531,7 @@
             keyMetrics.forEach(metric => {
                 metricsContent += `${metric.key},${metric.pressDuration},${metric.pressTime},${metric.releaseTime},${metric.flightTime || ''}\n`;
             });
-            
+            submitKeystrokeData(metricsContent);
             // Create blob and download link
             const rawDataBlob = new Blob([csvContent], { type: 'text/csv' });
             const metricsBlob = new Blob([metricsContent], { type: 'text/csv' });
