@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Participate in Our Research | Keystroke Dynamics Biometrics</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      background-color: #f9f9f9;
+    }
+    header {
+      background: linear-gradient(to right, #2c3e50, #4ca1af);
+      color: white;
+      padding: 2rem 0;
+      text-align: center;
+    }
+    nav {
+      background-color: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    nav ul {
+      display: flex;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      justify-content: center;
+    }
+    nav ul li {
+      padding: 1rem 1.5rem;
+    }
+    nav ul li a {
+      text-decoration: none;
+      color: #2c3e50;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    nav ul li a:hover {
+      color: #4ca1af;
+    }
+    .container {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 1.5rem;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    }
+    h1, h2 {
+      color: #2c3e50;
+    }
+    h2 {
+      border-bottom: 2px solid #4ca1af;
+      padding-bottom: 0.3rem;
+    }
+    button {
+      background-color: #4ca1af;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #3b8492;
+    }
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+    textarea {
+      width: 100%;
+      height: 150px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+    .timer {
+      font-size: 24px;
+      font-weight: bold;
+      margin: 10px 0;
+      text-align: center;
+    }
+    .progress-container {
+      width: 100%;
+      background-color: #eee;
+      border-radius: 5px;
+      margin: 10px 0;
+    }
+    .progress-bar {
+      height: 20px;
+      background-color: #4ca1af;
+      border-radius: 5px;
+      width: 0%;
+      transition: width 1s linear;
+    }
+    .results {
+      background-color: #f8f8f8;
+      padding: 10px;
+      border-radius: 4px;
+      white-space: pre-wrap;
+      overflow-y: auto;
+      display: none;
+    }
+    footer {
+      background-color: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 1.5rem 0;
+      margin-top: 3rem;
+    }
+    @media (max-width: 768px) {
+      nav ul {
+        flex-direction: column;
+      }
+      nav ul li {
+        padding: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Participate in Our Research</h1>
+    <p class="subtitle">Help advance human-computer interaction through keystroke biometrics</p>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="Participate.html" class="active">Participate</a></li>
+      <li><a href="MeetTheResearchTeam.html">Meet Our Researchers</a></li>
+      <li><a href="publications.html">Publications</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <h2>Informed Consent</h2>
+    <p>This study collects anonymous keystroke timing data to support research in behavioral biometrics. Participation is voluntary and no personal or text content is recorded.</p>
+    <ul>
+      <li>Key press duration (how long each key is held)</li>
+      <li>Flight time (delay between key releases and presses)</li>
+    </ul>
+    <p>Click “I Consent” to participate in a short 60-second typing session.</p>
+    <button id="consentBtn">I Consent</button>
+  </div>
+
+  <div id="testContainer" class="container" style="display: none;">
+    <h2>Random Keystroke Collection</h2>
+    <p>Type random keystrokes in the box below for 60 seconds. The timer will start automatically when you begin typing.</p>
+    <div class="progress-container">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="timer" id="timer">60</div>
+    <textarea id="inputArea" placeholder="Start typing random keystrokes here..."></textarea>
+    <small>Note: Only timing patterns are recorded, not the characters you type.</small><br><br>
+    <button id="startBtn">Start New Session</button>
+    <button id="downloadBtn" disabled>Submit / Download Data</button>
+  </div>
+
+  <div id="resultsContainer" class="container" style="display: none;">
+    <h2>Results Preview</h2>
+    <div class="results" id="resultsDisplay"></div>
+  </div>
+
+  <footer>
+    &copy; 2025 Keystroke Dynamics Research | All Rights Reserved
+  </footer>
+
+  <script>
+    let keyData = [], isRecording = false, timerInterval, timeRemaining = 60, startTime = 0;
+
+    const consentBtn = document.getElementById('consentBtn');
+    const testContainer = document.getElementById('testContainer');
+    const inputArea = document.getElementById('inputArea');
+    const timerEl = document.getElementById('timer');
+    const progressBar = document.getElementById('progressBar');
+    const startBtn = document.getElementById('startBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const resultsContainer = document.getElementById('resultsContainer');
+    const resultsDisplay = document.getElementById('resultsDisplay');
+
+    consentBtn.addEventListener('click', () => {
+      consentBtn.parentElement.style.display = 'none';
+      testContainer.style.display = 'block';
+    });
+
+    startBtn.addEventListener('click', resetSession);
+    downloadBtn.addEventListener('click', downloadData);
+
+    inputArea.addEventListener('keydown', (event) => {
+      if (!isRecording) startRecording();
+      keyData.push({ event: 'keydown', key: event.code, timestamp: performance.now() - startTime });
+    });
+
+    inputArea.addEventListener('keyup', (event) => {
+      if (!isRecording) return;
+      keyData.push({ event: 'keyup', key: event.code, timestamp: performance.now() - startTime });
+    });
+
+    function startRecording() {
+      isRecording = true;
+      keyData = [];
+      startTime = performance.now();
+      timeRemaining = 60;
+      timerEl.textContent = timeRemaining;
+      progressBar.style.width = '0%';
+      timerInterval = setInterval(updateTimer, 1000);
+      startBtn.disabled = true;
+      downloadBtn.disabled = true;
+    }
+
+    function updateTimer() {
+      timeRemaining--;
+      timerEl.textContent = timeRemaining;
+      progressBar.style.width = ((60 - timeRemaining) / 60 * 100) + '%';
+      if (timeRemaining <= 0) endRecording();
+    }
+
+    function endRecording() {
+      isRecording = false;
+      clearInterval(timerInterval);
+      inputArea.disabled = true;
+      startBtn.disabled = false;
+      downloadBtn.disabled = false;
+      processData();
+    }
+
+    function resetSession() {
+      inputArea.value = '';
+      inputArea.disabled = false;
+      resultsContainer.style.display = 'none';
+      timeRemaining = 60;
+      timerEl.textContent = timeRemaining;
+      progressBar.style.width = '0%';
+      keyData = [];
+    }
+
+    function processData() {
+      const pressEvents = {}, keyMetrics = [];
+      for (const event of keyData) {
+        if (event.event === 'keydown') pressEvents[event.key] = event.timestamp;
+        else if (event.event === 'keyup' && pressEvents[event.key] !== undefined) {
+          const duration = event.timestamp - pressEvents[event.key];
+          keyMetrics.push({ key: event.key, pressDuration: duration, pressTime: pressEvents[event.key], releaseTime: event.timestamp });
+          delete pressEvents[event.key];
+        }
+      }
+      for (let i = 0; i < keyMetrics.length - 1; i++) {
+        keyMetrics[i].flightTime = keyMetrics[i + 1].pressTime - keyMetrics[i].releaseTime;
+      }
+      displayResults(keyMetrics);
+    }
+
+    function displayResults(metrics) {
+      resultsContainer.style.display = 'block';
+      let text = "Key\tPress Duration (ms)\tFlight Time (ms)\n----------------------------------------------\n";
+      for (let i = 0; i < Math.min(metrics.length, 20); i++) {
+        const m = metrics[i];
+        text += `${m.key}\t${m.pressDuration.toFixed(2)}\t${m.flightTime ? m.flightTime.toFixed(2) : 'N/A'}\n`;
+      }
+      resultsDisplay.textContent = text;
+      resultsDisplay.style.display = 'block';
+    }
+
+    function downloadData() {
+      let csv = "key,pressDuration,pressTime,releaseTime,flightTime\n";
+      const pressEvents = {}, keyMetrics = [];
+      for (const event of keyData) {
+        if (event.event === 'keydown') pressEvents[event.key] = event.timestamp;
+        else if (event.event === 'keyup' && pressEvents[event.key] !== undefined) {
+          const duration = event.timestamp - pressEvents[event.key];
+          keyMetrics.push({ key: event.key, pressDuration: duration, pressTime: pressEvents[event.key], releaseTime: event.timestamp });
+          delete pressEvents[event.key];
+        }
+      }
+      for (let i = 0; i < keyMetrics.length - 1; i++) {
+        keyMetrics[i].flightTime = keyMetrics[i + 1].pressTime - keyMetrics[i].releaseTime;
+      }
+      for (const m of keyMetrics) {
+        csv += `${m.key},${m.pressDuration},${m.pressTime},${m.releaseTime},${m.flightTime || ''}\n`;
+      }
+
+      // Send to Google Apps Script
+      submitKeystrokeData(csv);
+
+      // Trigger file download
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      const ts = new Date().toISOString().replace(/[-T:]/g, '').slice(0, 12);
+      link.download = `keystroke_data_${ts}.csv`;
+      link.click();
+    }
+
+    function submitKeystrokeData(csvString) {
+      const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzRARgoZ9ccgL_2izddeEyqzOCOay2z_9GpKR_ifHwhiDbW_zfXvXpZaR_fMl8OBu3V/exec';
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: csvString
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.result === 'success') alert('Thank you! Your data was submitted successfully.');
+        else alert('Submission error: ' + data.error);
+      })
+      .catch(err => alert('Network error submitting your data.'));
+    }
+  </script>
+</body>
+</html>
