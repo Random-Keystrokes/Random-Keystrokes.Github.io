@@ -279,7 +279,60 @@
         <p>By clicking "I Consent" and participating, you agree to these terms.</p>
         <button id="consentBtn">I Consent</button>
     </div>
+<!-- PARTICIPANT SURVEY LINK + INLINE EMBED -->
+<div class="container" id="surveyContainer">
+  <h2>Participant Survey</h2>
+  <p>
+    Please complete our short participant survey. You can open it in a new tab or complete it right here on this page.
+  </p>
+  <!-- Inline Form iframe (use embedded=true) -->
+  <div id="formEmbed" style="display:none; margin-top:1rem;">
+    <iframe id="formIframe"
+            src="https://docs.google.com/forms/d/e/1FAIpQLSe2iPfFhtFVZ0IOPnsbVAY7mZl2g4MyauDpxOFAs1p9UeGXIQ/viewform?embedded=true"
+            width="100%" height="800" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+  </div>
+<!-- Minimal styling for the inline buttons (optional, fits with your earlier styles) -->
+<style>
+  .button-link {
+    display: inline-block;
+    margin-right: 0.75rem;
+    padding: .5rem .9rem;
+    background:#4ca1af;
+    color:#fff;
+    border-radius:4px;
+    text-decoration:none;
+    font-weight:500;
+  }
+  #toggleFormBtn, #toggleSheetBtn {
+    padding: .5rem .9rem;
+    border-radius:4px;
+    border: none;
+    background: #2c3e50;
+    color: #fff;
+    cursor: pointer;
+    margin-right:.5rem;
+  }
+</style>
 
+<script>
+  const toggleFormBtn = document.getElementById('toggleFormBtn');
+  const toggleSheetBtn = document.getElementById('toggleSheetBtn');
+  const formEmbed = document.getElementById('formEmbed');
+  const sheetEmbed = document.getElementById('sheetEmbed');
+
+  toggleFormBtn.addEventListener('click', () => {
+    const showing = formEmbed.style.display === 'block';
+    formEmbed.style.display = showing ? 'none' : 'block';
+    toggleFormBtn.textContent = showing ? 'Show Survey Inline' : 'Hide Survey';
+  });
+
+  toggleSheetBtn.addEventListener('click', () => {
+    const showing = sheetEmbed.style.display === 'block';
+    sheetEmbed.style.display = showing ? 'none' : 'block';
+    toggleSheetBtn.textContent = showing ? 'Show Responses Sheet Inline' : 'Hide Responses Sheet';
+  });
+</script>
+ <!-- END PARTICIPANT SURVEY LINK + INLINE EMBED -->   
     <div id="testContainer" class="container" style="display: none;">
         <h2>Random Keystroke Collection</h2>
         <p>Please type random keystrokes in the box below for 60 seconds. Try to type naturally without any specific pattern.</p>
