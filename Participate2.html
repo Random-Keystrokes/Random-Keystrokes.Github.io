@@ -256,7 +256,28 @@
 </head>
 <body>
     <h1>Keystroke Biometrics Data Collection</h1>
+    <!-- PARTICIPANT SURVEY SECTION -->
+    <div class="container" id="surveyContainer">
+      <h2>Participant Survey</h2>
+      <p>
+        Please complete our short participant survey below before proceeding. 
+        The form will load directly within this page.
+      </p>
     
+      <!-- Inline Google Form Embed -->
+      <iframe
+        src="https://docs.google.com/forms/d/e/1FAIpQLSe2iPfFhtFVZ0IOPnsbVAY7mZl2g4MyauDpxOFAs1p9UeGXIQ/viewform?embedded=true"
+        width="100%"
+        height="900"
+        frameborder="0"
+        marginheight="0"
+        marginwidth="0"
+        style="border:1px solid #ccc; border-radius:8px;"
+      >
+        Loading…
+      </iframe>
+    </div>
+<!-- END SURVEY SECTION -->
     <div class="consent-form container">
         <h2>Informed Consent</h2>
         <p>This research study collects keystroke timing data for biometric research purposes. Your participation is voluntary.</p>
@@ -280,28 +301,7 @@
         <button id="consentBtn">I Consent</button>
     </div>
 
-<!-- PARTICIPANT SURVEY SECTION -->
-    <div class="container" id="surveyContainer">
-      <h2>Participant Survey</h2>
-      <p>
-        Please complete our short participant survey below before proceeding. 
-        The form will load directly within this page.
-      </p>
-    
-      <!-- Inline Google Form Embed -->
-      <iframe
-        src="https://docs.google.com/forms/d/e/1FAIpQLSe2iPfFhtFVZ0IOPnsbVAY7mZl2g4MyauDpxOFAs1p9UeGXIQ/viewform?embedded=true"
-        width="100%"
-        height="900"
-        frameborder="0"
-        marginheight="0"
-        marginwidth="0"
-        style="border:1px solid #ccc; border-radius:8px;"
-      >
-        Loading…
-      </iframe>
-    </div>
-<!-- END SURVEY SECTION -->
+
   
     <div id="testContainer" class="container" style="display: none;">
         <h2>Random Keystroke Collection</h2>
