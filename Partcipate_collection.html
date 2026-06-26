@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keystroke Data Collection</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+        header {
+            background: linear-gradient(to right, #2c3e50, #4ca1af);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        nav {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            justify-content: center;
+        }
+        nav ul li {
+            padding: 1rem 1.5rem;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        nav ul li a:hover {
+            color: #4ca1af;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #4ca1af;
+            padding-bottom: 0.5rem;
+            margin-top: 2rem;
+        }
+        .subtitle {
+            font-size: 1.2rem;
+            margin-top: 0.5rem;
+            opacity: 0.9;
+        }
+        .intro {
+            text-align: center;
+            margin: 2rem 0;
+        }
+        .intro p {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .researcher-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2.5rem;
+            overflow: hidden;
+            display: flex;
+            flex-direction: row;
+        }
+        .researcher-image {
+            flex: 0 0 300px;
+            background-color: #f0f0f0;
+        }
+        .researcher-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .researcher-info {
+            flex: 1;
+            padding: 2rem;
+        }
+        .researcher-info h3 {
+            color: #2c3e50;
+            margin-top: 0;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        .researcher-title {
+            color: #4ca1af;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        .researcher-bio {
+            margin-bottom: 1.5rem;
+        }
+        .research-interests {
+            background-color: #f5f9fa;
+            padding: 1rem;
+            border-radius: 6px;
+            border-left: 4px solid #4ca1af;
+        }
+        .research-interests h4 {
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+        .contact-info {
+            display: flex;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+        }
+        .contact-info div {
+            margin-right: 1.5rem;
+        }
+        .contact-info i {
+            color: #4ca1af;
+            margin-right: 0.5rem;
+        }
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 1.5rem 0;
+            margin-top: 3rem;
+        }
+        @media (max-width: 768px) {
+            .researcher-card {
+                flex-direction: column;
+            }
+            .researcher-image {
+                flex: 0 0 auto;
+                height: 300px;
+            }
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            nav ul li {
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+ <!---      <h1>Consent to participate</h1>   --->
+            <div class="subtitle">Keystroke Research - Key information to consider</div>
+        </div>
+    </header>
+<!-- Removing Nav section --->
+<!---    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="Participate.html">Participate in Our Research</a></li>
+            <li><a href="MeetTheResearchTeam.html">Meet Our Researchers</a></li>
+            <li><a href="publications.html">Publications</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>   
+    --->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keystroke Biometrics Data Collection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 0;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .timer {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .progress-container {
+            width: 100%;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .progress-bar {
+            height: 20px;
+            background-color: #4CAF50;
+            border-radius: 5px;
+            width: 0%;
+            transition: width 1s linear;
+        }
+        .results {
+            white-space: pre-wrap;
+            background-color: #f8f8f8;
+            padding: 10px;
+            border-radius: 4px;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+        }
+        .download-btn {
+            background-color: #2196F3;
+        }
+        .consent-form {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<!---    <h1>Keystroke Biometrics Data Collection</h1> -->
+    
+    <div id="testContainer" class="container" style="display: none;">
+        <h2>Random Keystroke Collection</h2>
+        <p>Please type random keystrokes in the box below for 60 seconds. There is no script to follow. Type random keys without trying to spell words. Try to type naturally without any specific pattern.</p>
+        <p>Timer will start when you begin typing. Please repeat this process 5 times. Each time you will click the download key after the 60 seconds timer runs out.</p>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="timer" id="timer">60</div>
+        
+        <textarea id="inputArea" placeholder="Start typing random keystrokes here..."></textarea>
+        <p><small>Note: Each download will create 2 files to be attached to the email to jblake3@Binghamton.edu.  Click the 'Start New Session' button after each download.</small></p>
+        
+        <button id="startBtn">Start New Session</button>
+        <button id="downloadBtn" class="download-btn" disabled>Download Data</button>
+    </div>
+    
+    <div id="resultsContainer" class="container" style="display: none;">
+        <h2>Results Preview</h2>
+        <p>Here's a preview of the collected keystroke timing data:</p>
+        <div class="results" id="resultsDisplay"></div>
+    </div>
+
+    <script>
+        let keyData = [];
+        let isRecording = false;
+        let timerInterval;
+        let timeRemaining = 60;
+        let startTime = 0;
+        
+        document.getElementById('consentBtn').addEventListener('click', function() {
+            document.querySelector('.consent-form').style.display = 'none';
+            document.getElementById('testContainer').style.display = 'block';
+        });
+
+        document.getElementById('startBtn').addEventListener('click', resetSession);
+        document.getElementById('downloadBtn').addEventListener('click', downloadData);
+
+        const inputArea = document.getElementById('inputArea');
+        
+        inputArea.addEventListener('keydown', function(event) {
+            if (!isRecording) {
+                startRecording();
+            }
+            
+            const timestamp = performance.now() - startTime;
+            keyData.push({
+                event: 'keydown',
+                key: event.code,
+                timestamp: timestamp
+            });
+        });
+
+        inputArea.addEventListener('keyup', function(event) {
+            if (!isRecording) return;
+            
+            const timestamp = performance.now() - startTime;
+            keyData.push({
+                event: 'keyup',
+                key: event.code,
+                timestamp: timestamp
+            });
+        });
+
+        function startRecording() {
+            isRecording = true;
+            keyData = [];
+            startTime = performance.now();
+            timeRemaining = 60;
+            
+            document.getElementById('timer').textContent = timeRemaining;
+            document.getElementById('progressBar').style.width = '0%';
+            
+            timerInterval = setInterval(updateTimer, 1000);
+            document.getElementById('inputArea').disabled = false;
+            document.getElementById('startBtn').disabled = true;
+        }
+
+        function updateTimer() {
+            timeRemaining--;
+            document.getElementById('timer').textContent = timeRemaining;
+            
+            // Update progress bar
+            const progressPercentage = ((60 - timeRemaining) / 60) * 100;
+            document.getElementById('progressBar').style.width = progressPercentage + '%';
+            
+            if (timeRemaining <= 0) {
+                endRecording();
+            }
+        }
+
+        function endRecording() {
+            isRecording = false;
+            clearInterval(timerInterval);
+            
+            document.getElementById('inputArea').disabled = true;
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('downloadBtn').disabled = false;
+            
+            processData();
+        }
+
+        function resetSession() {
+            document.getElementById('inputArea').value = '';
+            document.getElementById('inputArea').disabled = false;
+            document.getElementById('downloadBtn').disabled = true;
+            document.getElementById('resultsContainer').style.display = 'none';
+            timeRemaining = 60;
+            document.getElementById('timer').textContent = timeRemaining;
+            document.getElementById('progressBar').style.width = '0%';
+            keyData = [];
+        }
+// Send CSV files via email instead of downloading
+async function emailCSVFiles(rawDataBlob, metricsBlob, timestamp) {
+    const formData = new FormData();
+    
+    // Add CSV files to form data
+    formData.append('rawData', rawDataBlob, `keystroke_raw_data_${timestamp}.csv`);
+    formData.append('metrics', metricsBlob, `keystroke_metrics_${timestamp}.csv`);
+    formData.append('timestamp', timestamp);
+    formData.append('recipientEmail', 'Jblake3@binghamton.edu');
+    
+    try {
+        const response = await fetch('/api/email-keystroke-data/', {
+            method: 'POST',
+            body: formData
+        });
+        
+        if (response.ok) {
+            alert('Keystroke data has been successfully emailed!');
+        } else {
+            throw new Error('Failed to send email');
+        }
+    } catch (error) {
+        console.error('Error sending email:', error);
+        alert('Failed to send email. Please try again.');
+        
+        // Fallback to download if email fails
+        downloadCSVFiles(rawDataBlob, metricsBlob, timestamp);
+    }
+}
+
+// Fallback download function
+function downloadCSVFiles(rawDataBlob, metricsBlob, timestamp) {
+    const rawDataUrl = URL.createObjectURL(rawDataBlob);
+    const rawDataLink = document.createElement('a');
+    rawDataLink.href = rawDataUrl;
+    rawDataLink.download = `keystroke_raw_data_${timestamp}.csv`;
+    rawDataLink.click();
+    
+    setTimeout(() => {
+        const metricsUrl = URL.createObjectURL(metricsBlob);
+        const metricsLink = document.createElement('a');
+        metricsLink.href = metricsUrl;
+        metricsLink.download = `keystroke_metrics_${timestamp}.csv`;
+        metricsLink.click();
+    }, 1000);
+}
+
+// Replace your current code with:
+//emailCSVFiles(rawDataBlob, metricsBlob, timestamp);
+        function processData() {
+            const pressEvents = {};
+            const keyMetrics = [];
+            
+            // Process key press durations
+            for (let i = 0; i < keyData.length; i++) {
+                const event = keyData[i];
+                
+                if (event.event === 'keydown') {
+                    pressEvents[event.key] = event.timestamp;
+                } else if (event.event === 'keyup') {
+                    if (pressEvents[event.key] !== undefined) {
+                        const duration = event.timestamp - pressEvents[event.key];
+                        
+                        keyMetrics.push({
+                            key: event.key,
+                            pressDuration: duration,
+                            pressTime: pressEvents[event.key],
+                            releaseTime: event.timestamp
+                        });
+                        
+                        delete pressEvents[event.key];
+                    }
+                }
+            }
+            
+            // Calculate flight times (time between releasing a key and pressing the next)
+            for (let i = 0; i < keyMetrics.length - 1; i++) {
+                const current = keyMetrics[i];
+                const next = keyMetrics[i + 1];
+                
+                keyMetrics[i].flightTime = next.pressTime - current.releaseTime;
+            }
+            
+            // Display sample of the results
+            //displayResults(keyMetrics);
+        }
+
+        function displayResults(metrics) {
+            const resultsElement = document.getElementById('resultsDisplay');
+            document.getElementById('resultsContainer').style.display = 'block';
+            
+            // Create a sample of the data to show
+            let resultText = "Key\tPress Duration (ms)\tFlight Time (ms)\n";
+            resultText += "------------------------------------------------\n";
+            
+            const sampleSize = Math.min(20, metrics.length);
+            for (let i = 0; i < sampleSize; i++) {
+                const metric = metrics[i];
+                resultText += `${metric.key}\t${metric.pressDuration.toFixed(2)}\t${metric.flightTime ? metric.flightTime.toFixed(2) : 'N/A'}\n`;
+            }
+            
+            if (metrics.length > 20) {
+                resultText += `\n... ${metrics.length - 20} more entries not shown ...`;
+            }
+            
+            resultsElement.textContent = resultText;
+            resultsElement.style.display = 'block';
+        }
+
+        function downloadData() {
+            // Format the data for download
+            let csvContent = "key,event,timestamp\n";
+            
+            keyData.forEach(record => {
+                csvContent += `${record.key},${record.event},${record.timestamp}\n`;
+            });
+            
+            // Calculate metrics
+            let metricsContent = "key,pressDuration,pressTime,releaseTime,flightTime\n";
+            const pressEvents = {};
+            const keyMetrics = [];
+            
+            for (let i = 0; i < keyData.length; i++) {
+                const event = keyData[i];
+                
+                if (event.event === 'keydown') {
+                    pressEvents[event.key] = event.timestamp;
+                } else if (event.event === 'keyup') {
+                    if (pressEvents[event.key] !== undefined) {
+                        const duration = event.timestamp - pressEvents[event.key];
+                        
+                        keyMetrics.push({
+                            key: event.key,
+                            pressDuration: duration,
+                            pressTime: pressEvents[event.key],
+                            releaseTime: event.timestamp
+                        });
+                        
+                        delete pressEvents[event.key];
+                    }
+                }
+            }
+            
+            for (let i = 0; i < keyMetrics.length - 1; i++) {
+                const current = keyMetrics[i];
+                const next = keyMetrics[i + 1];
+                
+                keyMetrics[i].flightTime = next.pressTime - current.releaseTime;
+            }
+            
+            keyMetrics.forEach(metric => {
+                metricsContent += `${metric.key},${metric.pressDuration},${metric.pressTime},${metric.releaseTime},${metric.flightTime || ''}\n`;
+            });
+            
+            // Create blob and download link
+            const rawDataBlob = new Blob([csvContent], { type: 'text/csv' });
+            const metricsBlob = new Blob([metricsContent], { type: 'text/csv' });
+            
+            // Generate a timestamp for the filename
+            const date = new Date();
+            const timestamp = `${date.getFullYear()}${(date.getMonth()+1).toString().padStart(2,'0')}${date.getDate().toString().padStart(2,'0')}_${date.getHours().toString().padStart(2,'0')}${date.getMinutes().toString().padStart(2,'0')}`;
+            
+            // Create download links for both files
+            const rawDataUrl = URL.createObjectURL(rawDataBlob);
+            const rawDataLink = document.createElement('a');
+            rawDataLink.href = rawDataUrl;
+            rawDataLink.download = `keystroke_raw_data_${timestamp}.csv`;
+            rawDataLink.click();
+            
+            setTimeout(() => {
+                const metricsUrl = URL.createObjectURL(metricsBlob);
+                const metricsLink = document.createElement('a');
+                metricsLink.href = metricsUrl;
+                metricsLink.download = `keystroke_metrics_${timestamp}.csv`;
+                metricsLink.click();
+            }, 100); // Small delay between downloads
+        }
+    </script>
+<script>
+/* simple keystroke capture + batching */
+const batchSize = 50;
+const flushIntervalMs = 5000;
+let buffer = [];
+let sessionId = crypto.randomUUID();
+
+document.addEventListener('keydown', (e) => {
+  // only capture if user gave consent (replace '#consent' with your consent checkbox)
+  const consent = document.querySelector('#consent');
+  if (!consent || !consent.checked) return;
+
+  // record minimal fields — avoid capturing full text if not required
+  buffer.push({
+    t: Date.now(),
+    k: e.key,          // or e.code if you prefer
+    type: 'keydown',
+    session: sessionId
+  });
+
+  if (buffer.length >= batchSize) flushBuffer();
+});
+
+// periodic flush
+setInterval(flushBuffer, flushIntervalMs);
+
+// flush on page unload (best-effort)
+window.addEventListener('beforeunload', flushBuffer);
+
+function flushBuffer() {
+  if (buffer.length === 0) return;
+  const payload = {
+    events: buffer.splice(0), // copy & clear
+    meta: { userAgent: navigator.userAgent, ts: Date.now(), session: sessionId }
+  };
+  // send to your backend
+  navigator.sendBeacon('/collect', JSON.stringify(payload)); // sendBeacon is fire-and-forget and uses POST
+  // alternativley use fetch:
+  // fetch('/collect', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)});
+}
+<!---script -conscent button ----->
+document.getElementById("consentBtn").addEventListener("click", function () {
+
+    // Hide the consent section
+    this.parentElement.style.display = "none";
+
+    // Show the survey section
+    document.getElementById("surveyContainer").style.display = "block";
+
+    // Optional: Scroll to the survey
+    document.getElementById("surveyContainer").scrollIntoView({
+        behavior: "smooth"
+    });
+});
+</script>
+</body>
+</html>
