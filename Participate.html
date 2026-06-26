@@ -297,7 +297,7 @@ Helping researchers develop non-intrusive, low-cost biometric technologies that 
     </div>
 
 <!-- PARTICIPANT SURVEY SECTION --->
-    <div class="container" id="surveyContainer">
+    <div class="container" id="surveyContainer" style="display:none;>
       <h2>Participant Survey</h2>
       <p>
         Thank you for your consent to participate in the Human Ramdon Keystokes study. Please complete the following survey to continue
@@ -649,6 +649,20 @@ function flushBuffer() {
   // fetch('/collect', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)});
 }
 </script>
+<script>
+document.getElementById("consentBtn").addEventListener("click", function () {
 
+    // Hide the consent section
+    this.parentElement.style.display = "none";
+
+    // Show the survey section
+    document.getElementById("surveyContainer").style.display = "block";
+
+    // Optional: Scroll to the survey
+    document.getElementById("surveyContainer").scrollIntoView({
+        behavior: "smooth"
+    });
+});
+</script>
 </body>
 </html>
