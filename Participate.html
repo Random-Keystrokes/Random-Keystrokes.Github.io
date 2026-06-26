@@ -648,21 +648,8 @@ function flushBuffer() {
   // alternativley use fetch:
   // fetch('/collect', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)});
 }
+
 </script>
-<script>
-document.getElementById("consentBtn").addEventListener("click", function () {
 
-    // Hide the consent section
-    this.parentElement.style.display = "none";
-
-    // Show the survey section
-    document.getElementById("surveyContainer").style.display = "block";
-
-    // Optional: Scroll to the survey
-    document.getElementById("surveyContainer").scrollIntoView({
-        behavior: "smooth"
-    });
-});
-</script>
 </body>
 </html>
