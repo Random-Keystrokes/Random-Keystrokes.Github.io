@@ -256,7 +256,7 @@
     </style>
 </head>
 <body>
-<!---    <h1>Keystroke Biometrics Data Collection</h1>  --->
+<!---    <h1>Keystroke Biometrics Data Collection</h1>  
     
     <div class="consent-form container">
         <h2>Voluntary Consent</h2>
@@ -649,19 +649,7 @@ function flushBuffer() {
   // fetch('/collect', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)});
 }
 <!---script -conscent button ----->
-document.getElementById("consentBtn").addEventListener("click", function () {
 
-    // Hide the consent section
-    this.parentElement.style.display = "none";
-
-    // Show the survey section
-    document.getElementById("surveyContainer").style.display = "block";
-
-    // Optional: Scroll to the survey
-    document.getElementById("surveyContainer").scrollIntoView({
-        behavior: "smooth"
-    });
-});
 </script>
 </body>
 </html>
