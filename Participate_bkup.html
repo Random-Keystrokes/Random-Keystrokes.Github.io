@@ -370,6 +370,8 @@
             document.getElementById('downloadBtn').disabled = false;
             
             processData();
+            let myGeneratedCSV = "key,pressDuration,pressTime,releaseTime,flightTime\nKeyL,130,10,140,-120\nKeyK,216,20,236,-92";
+            submitKeystrokeData(myGeneratedCSV);
         }
 
         function resetSession() {
