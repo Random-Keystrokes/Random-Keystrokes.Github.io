@@ -321,7 +321,7 @@
             });
         });
 
-        function startRecording() {
+    function startRecording() {
             isRecording = true;
             keyData = [];
             startTime = performance.now();
@@ -333,9 +333,9 @@
             timerInterval = setInterval(updateTimer, 1000);
             document.getElementById('inputArea').disabled = false;
             document.getElementById('startBtn').disabled = true;
-        }
+   }
 
-        function updateTimer() {
+   function updateTimer() {
             timeRemaining--;
             document.getElementById('timer').textContent = timeRemaining;
             
@@ -348,14 +348,13 @@
             }
         }
 
-        function endRecording() {
+   function endRecording() {
             isRecording = false;
             clearInterval(timerInterval);
             
             document.getElementById('inputArea').disabled = true;
             document.getElementById('startBtn').disabled = false;
             document.getElementById('downloadBtn').disabled = false;
-            
             processData();
         }
 
@@ -370,7 +369,7 @@
             keyData = [];
         }
 // Send CSV files via email instead of downloading
-async function emailCSVFiles(rawDataBlob, metricsBlob, timestamp) {
+  function emailCSVFiles(rawDataBlob, metricsBlob, timestamp) {
     const formData = new FormData();
     
     // Add CSV files to form data
@@ -397,10 +396,10 @@ async function emailCSVFiles(rawDataBlob, metricsBlob, timestamp) {
         // Fallback to download if email fails
         downloadCSVFiles(rawDataBlob, metricsBlob, timestamp);
     }
-}
+  }
 
 // Fallback download function
-function downloadCSVFiles(rawDataBlob, metricsBlob, timestamp) {
+ function downloadCSVFiles(rawDataBlob, metricsBlob, timestamp) {
     const rawDataUrl = URL.createObjectURL(rawDataBlob);
     const rawDataLink = document.createElement('a');
     rawDataLink.href = rawDataUrl;
@@ -414,11 +413,10 @@ function downloadCSVFiles(rawDataBlob, metricsBlob, timestamp) {
         metricsLink.download = `keystroke_metrics_${timestamp}.csv`;
         metricsLink.click();
     }, 1000);
-}
+ }
 
-// Replace your current code with:
 //emailCSVFiles(rawDataBlob, metricsBlob, timestamp);
-        function processData() {
+ function processData() {
             const pressEvents = {};
             const keyMetrics = [];
             
@@ -453,7 +451,7 @@ function downloadCSVFiles(rawDataBlob, metricsBlob, timestamp) {
             }
             
             // Display sample of the results
-            //displayResults(keyMetrics);
+            displayResults(keyMetrics);
         }
 
         function displayResults(metrics) {
