@@ -333,7 +333,7 @@
             timerInterval = setInterval(updateTimer, 1000);
             document.getElementById('inputArea').disabled = false;
             document.getElementById('startBtn').disabled = true;
-   }
+       }
 
    function updateTimer() {
             timeRemaining--;
@@ -368,54 +368,7 @@
             document.getElementById('progressBar').style.width = '0%';
             keyData = [];
         }
-// Send CSV files via email instead of downloading
-  function emailCSVFiles(rawDataBlob, metricsBlob, timestamp) {
-    const formData = new FormData();
-    
-    // Add CSV files to form data
-    formData.append('rawData', rawDataBlob, `keystroke_raw_data_${timestamp}.csv`);
-    formData.append('metrics', metricsBlob, `keystroke_metrics_${timestamp}.csv`);
-    formData.append('timestamp', timestamp);
-    formData.append('recipientEmail', 'Jblake3@binghamton.edu');
-    
-    try {
-        const response = await fetch('/api/email-keystroke-data/', {
-            method: 'POST',
-            body: formData
-        });
-        
-        if (response.ok) {
-            alert('Keystroke data has been successfully emailed!');
-        } else {
-            throw new Error('Failed to send email');
-        }
-    } catch (error) {
-        console.error('Error sending email:', error);
-        alert('Failed to send email. Please try again.');
-        
-        // Fallback to download if email fails
-        downloadCSVFiles(rawDataBlob, metricsBlob, timestamp);
-    }
-  }
-
-// Fallback download function
- function downloadCSVFiles(rawDataBlob, metricsBlob, timestamp) {
-    const rawDataUrl = URL.createObjectURL(rawDataBlob);
-    const rawDataLink = document.createElement('a');
-    rawDataLink.href = rawDataUrl;
-    rawDataLink.download = `keystroke_raw_data_${timestamp}.csv`;
-    rawDataLink.click();
-    
-    setTimeout(() => {
-        const metricsUrl = URL.createObjectURL(metricsBlob);
-        const metricsLink = document.createElement('a');
-        metricsLink.href = metricsUrl;
-        metricsLink.download = `keystroke_metrics_${timestamp}.csv`;
-        metricsLink.click();
-    }, 1000);
- }
-
-//emailCSVFiles(rawDataBlob, metricsBlob, timestamp);
+ 
  function processData() {
             const pressEvents = {};
             const keyMetrics = [];
