@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Random Keystroke Data Collection</title>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Random Keystroke Data Collection</h1>
+
+<p>
+Type random keystrokes continuously for 60 seconds.
+Do not attempt to type words or sentences.
+Use any keys on the keyboard naturally.
+</p>
+
+<div class="progress-container">
+    <div id="progressBar" class="progress-bar"></div>
+</div>
+
+<div id="timer" class="timer">
+60
+</div>
+
+<textarea
+id="inputArea"
+placeholder="Begin typing random keystrokes..."></textarea>
+
+<div class="buttons">
+
+<button id="startBtn">
+Start New Session
+</button>
+
+<button id="downloadBtn" disabled>
+Download CSV Files
+</button>
+
+</div>
+
+</div>
+
+<script src="keystrokes.js">
+const inputArea = document.getElementById("inputArea");
+const timer = document.getElementById("timer");
+const progressBar = document.getElementById("progressBar");
+
+const startBtn = document.getElementById("startBtn");
+const downloadBtn = document.getElementById("downloadBtn");
+
+let recording = false;
+let startTime = 0;
+let timeRemaining = 60;
+let timerInterval;
+
+let keyEvents = [];
+  function startRecording(){
+
+    recording = true;
+
+    keyEvents = [];
+
+    startTime = performance.now();
+
+    startBtn.disabled = true;
+
+    downloadBtn.disabled = true;
+
+    timerInterval = setInterval(updateTimer,1000);
+
+}
+inputArea.addEventListener("keydown",(e)=>{
+
+    if(!recording){
+
+        startRecording();
+
+    }
+
+    keyEvents.push({
+
+        key:e.code,
+
+        event:"keydown",
+
+        timestamp:performance.now()-startTime
+
+    });
+
+});
+  inputArea.addEventListener("keyup",(e)=>{
+
+    if(!recording) return;
+
+    keyEvents.push({
+
+        key:e.code,
+
+        event:"keyup",
+
+        timestamp:performance.now()-startTime
+
+    });
+
+});
+  function updateTimer(){
+
+    timeRemaining--;
+
+    timer.textContent=timeRemaining;
+
+    progressBar.style.width=((60-timeRemaining)/60*100)+"%";
+
+    if(timeRemaining<=0){
+
+        endRecording();
+
+    }
+
+}
+  function endRecording(){
+
+    clearInterval(timerInterval);
+
+    recording=false;
+
+    inputArea.disabled=true;
+
+    startBtn.disabled=false;
+
+    downloadBtn.disabled=false;
+
+}
+  startBtn.onclick=function(){
+
+    inputArea.value="";
+
+    inputArea.disabled=false;
+
+    timer.textContent="60";
+
+    progressBar.style.width="0%";
+
+    timeRemaining=60;
+
+    keyEvents=[];
+
+};
+  function downloadCSV(filename,text){
+
+    const blob=new Blob([text],{type:"text/csv"});
+
+    const url=URL.createObjectURL(blob);
+
+    const a=document.createElement("a");
+
+    a.href=url;
+
+    a.download=filename;
+
+    a.click();
+
+    URL.revokeObjectURL(url);
+
+}
+</script>
+
+</body>
+</html>
