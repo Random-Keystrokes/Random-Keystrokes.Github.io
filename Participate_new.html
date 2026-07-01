@@ -434,7 +434,478 @@ let secondsRemaining=60;
 /*
 ----------------------------------------------------
 
-Continue with Part 2 here.
+/***************************************************
+ Part 2
+ Session Management
+ Timer
+ Keystroke Recording
+***************************************************/
+
+//------------------------------------
+// Start a New Session
+//------------------------------------
+
+function resetSession(){
+
+    clearInterval(timerInterval);
+
+    keyEvents=[];
+
+    keyMetrics=[];
+
+    recording=false;
+
+    timerRunning=false;
+
+    secondsRemaining=60;
+
+    timerDisplay.textContent="60";
+
+    progressBar.style.width="0%";
+
+    totalKeysDisplay.textContent="0";
+
+    avgPressDisplay.textContent="0";
+
+    avgFlightDisplay.textContent="0";
+
+    inputArea.value="";
+
+    inputArea.disabled=false;
+
+    inputArea.focus();
+
+    downloadRawBtn.disabled=true;
+
+    downloadMetricsBtn.disabled=true;
+
+}
+
+startBtn.addEventListener("click",resetSession);
+
+
+//------------------------------------
+// Start Recording
+//------------------------------------
+
+function startRecording(){
+
+    recording=true;
+
+    timerRunning=true;
+
+    startTime=performance.now();
+
+    timerInterval=setInterval(updateTimer,1000);
+
+}
+
+
+//------------------------------------
+// Timer
+//------------------------------------
+
+function updateTimer(){
+
+    secondsRemaining--;
+
+    timerDisplay.textContent=secondsRemaining;
+
+    let percent=((60-secondsRemaining)/60)*100;
+
+    progressBar.style.width=percent+"%";
+
+    if(secondsRemaining<=0){
+
+        endRecording();
+
+    }
+
+}
+
+
+//------------------------------------
+// Stop Recording
+//------------------------------------
+
+function endRecording(){
+
+    clearInterval(timerInterval);
+
+    recording=false;
+
+    timerRunning=false;
+
+    inputArea.disabled=true;
+
+    processMetrics();
+
+    downloadRawBtn.disabled=false;
+
+    downloadMetricsBtn.disabled=false;
+
+}
+
+
+//------------------------------------
+// Key Down
+//------------------------------------
+
+inputArea.addEventListener("keydown",function(e){
+
+    if(!timerRunning){
+
+        startRecording();
+
+    }
+
+    let timestamp=performance.now()-startTime;
+
+    keyEvents.push({
+
+        key:e.code,
+
+        event:"keydown",
+
+        timestamp:timestamp
+
+    });
+
+});
+
+
+//------------------------------------
+// Key Up
+//------------------------------------
+
+inputArea.addEventListener("keyup",function(e){
+
+    if(!recording) return;
+
+    let timestamp=performance.now()-startTime;
+
+    keyEvents.push({
+
+        key:e.code,
+
+        event:"keyup",
+
+        timestamp:timestamp
+
+    });
+
+});
+
+
+//------------------------------------
+// Update Total Keys
+//------------------------------------
+
+setInterval(function(){
+
+    totalKeysDisplay.textContent=keyEvents.length;
+
+},250);
+
+
+/***************************************************
+
+/***************************************************
+ Part 3
+ Metrics Processing
+ CSV Generation
+***************************************************/
+
+//------------------------------------
+// Calculate Press Duration & Flight Time
+//------------------------------------
+
+function processMetrics(){
+
+    keyMetrics=[];
+
+    const activeKeys={};
+
+    let previousReleaseTime=null;
+
+    for(let i=0;i<keyEvents.length;i++){
+
+        const event=keyEvents[i];
+
+        if(event.event==="keydown"){
+
+            activeKeys[event.key]=event.timestamp;
+
+        }
+
+        else if(event.event==="keyup"){
+
+            if(activeKeys[event.key]!==undefined){
+
+                const pressTime=activeKeys[event.key];
+
+                const releaseTime=event.timestamp;
+
+                const pressDuration=releaseTime-pressTime;
+
+                let flightTime="";
+
+                if(previousReleaseTime!==null){
+
+                    flightTime=pressTime-previousReleaseTime;
+
+                }
+
+                keyMetrics.push({
+
+                    key:event.key,
+
+                    pressTime:pressTime,
+
+                    releaseTime:releaseTime,
+
+                    pressDuration:pressDuration,
+
+                    flightTime:flightTime
+
+                });
+
+                previousReleaseTime=releaseTime;
+
+                delete activeKeys[event.key];
+
+            }
+
+        }
+
+    }
+
+    updateStatistics();
+
+}
+
+
+//------------------------------------
+// Display Session Statistics
+//------------------------------------
+
+function updateStatistics(){
+
+    let pressSum=0;
+
+    let flightSum=0;
+
+    let flightCount=0;
+
+    keyMetrics.forEach(function(metric){
+
+        pressSum+=metric.pressDuration;
+
+        if(metric.flightTime!==""){
+
+            flightSum+=metric.flightTime;
+
+            flightCount++;
+
+        }
+
+    });
+
+    let avgPress=0;
+
+    let avgFlight=0;
+
+    if(keyMetrics.length>0){
+
+        avgPress=pressSum/keyMetrics.length;
+
+    }
+
+    if(flightCount>0){
+
+        avgFlight=flightSum/flightCount;
+
+    }
+
+    totalKeysDisplay.textContent=keyMetrics.length;
+
+    avgPressDisplay.textContent=avgPress.toFixed(2)+" ms";
+
+    avgFlightDisplay.textContent=avgFlight.toFixed(2)+" ms";
+
+}
+
+
+//------------------------------------
+// Create Raw CSV
+//------------------------------------
+
+function createRawCSV(){
+
+    let csv="Key,Event,Timestamp(ms)\n";
+
+    keyEvents.forEach(function(event){
+
+        csv+=
+            event.key+","
+            +event.event+","
+            +event.timestamp.toFixed(3)
+            +"\n";
+
+    });
+
+    return csv;
+
+}
+
+
+//------------------------------------
+// Create Metrics CSV
+//------------------------------------
+
+function createMetricsCSV(){
+
+    let csv=
+"Key,PressTime(ms),ReleaseTime(ms),PressDuration(ms),FlightTime(ms)\n";
+
+    keyMetrics.forEach(function(metric){
+
+        csv+=
+            metric.key+","
+            +metric.pressTime.toFixed(3)+","
+            +metric.releaseTime.toFixed(3)+","
+            +metric.pressDuration.toFixed(3)+","
+            +(metric.flightTime===""
+                ? ""
+                : metric.flightTime.toFixed(3))
+            +"\n";
+
+    });
+
+    return csv;
+
+}
+
+
+/***************************************************
+
+/***************************************************
+ Part 4
+ Downloads
+ Initialization
+***************************************************/
+
+//------------------------------------
+// Generic CSV Downloader
+//------------------------------------
+
+function downloadCSV(filename, content){
+
+    const blob = new Blob([content], {type:"text/csv"});
+
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+
+    link.href = url;
+
+    link.download = filename;
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(url);
+
+}
+
+
+//------------------------------------
+// Download Raw Data
+//------------------------------------
+
+downloadRawBtn.addEventListener("click", function(){
+
+    const now = new Date();
+
+    const timestamp =
+        now.getFullYear() +
+        String(now.getMonth()+1).padStart(2,"0") +
+        String(now.getDate()).padStart(2,"0") + "_" +
+        String(now.getHours()).padStart(2,"0") +
+        String(now.getMinutes()).padStart(2,"0") +
+        String(now.getSeconds()).padStart(2,"0");
+
+    downloadCSV(
+        "keystroke_raw_session_" +
+        sessionNumber +
+        "_" +
+        timestamp +
+        ".csv",
+
+        createRawCSV()
+    );
+
+});
+
+
+//------------------------------------
+// Download Metrics
+//------------------------------------
+
+downloadMetricsBtn.addEventListener("click", function(){
+
+    const now = new Date();
+
+    const timestamp =
+        now.getFullYear() +
+        String(now.getMonth()+1).padStart(2,"0") +
+        String(now.getDate()).padStart(2,"0") + "_" +
+        String(now.getHours()).padStart(2,"0") +
+        String(now.getMinutes()).padStart(2,"0") +
+        String(now.getSeconds()).padStart(2,"0");
+
+    downloadCSV(
+        "keystroke_metrics_session_" +
+        sessionNumber +
+        "_" +
+        timestamp +
+        ".csv",
+
+        createMetricsCSV()
+    );
+
+    //--------------------------------
+    // Advance Session Number
+    //--------------------------------
+
+    sessionNumber++;
+
+    sessionDisplay.textContent = sessionNumber;
+
+});
+
+
+//------------------------------------
+// Initialize Page
+//------------------------------------
+
+window.onload = function(){
+
+    resetSession();
+
+};
+
+</script>
+
+</body>
+</html>
+
+***************************************************/
+
+***************************************************/
 
 Do NOT close the script tag yet.
 
