@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Random Keystroke Biometrics Data Collection</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+
+    font-family:Segoe UI,Tahoma,Geneva,Verdana,sans-serif;
+    margin:0;
+    background:#f5f5f5;
+    color:#333;
+
+}
+
+header{
+
+    background:#1f4e79;
+    color:white;
+    text-align:center;
+    padding:25px;
+
+}
+
+.container{
+
+    width:90%;
+    max-width:1100px;
+
+    margin:30px auto;
+
+    background:white;
+
+    border-radius:10px;
+
+    padding:25px;
+
+    box-shadow:0px 0px 12px rgba(0,0,0,.15);
+
+}
+
+.instructions{
+
+    background:#eef7ff;
+
+    padding:20px;
+
+    border-left:5px solid #1f4e79;
+
+    margin-bottom:20px;
+
+}
+
+.instructions ul{
+
+    margin-top:10px;
+
+}
+
+.timer{
+
+    font-size:48px;
+
+    text-align:center;
+
+    color:#c62828;
+
+    font-weight:bold;
+
+    margin-top:20px;
+
+}
+
+.progress-container{
+
+    width:100%;
+
+    height:25px;
+
+    background:#ddd;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    margin-top:20px;
+
+}
+
+.progress-bar{
+
+    width:0%;
+
+    height:100%;
+
+    background:#4CAF50;
+
+    transition:width 1s linear;
+
+}
+
+textarea{
+
+    width:100%;
+
+    height:250px;
+
+    margin-top:25px;
+
+    padding:15px;
+
+    font-size:18px;
+
+    resize:none;
+
+}
+
+.buttonRow{
+
+    margin-top:25px;
+
+    text-align:center;
+
+}
+
+button{
+
+    background:#1f4e79;
+
+    color:white;
+
+    border:none;
+
+    padding:15px 30px;
+
+    margin:10px;
+
+    border-radius:6px;
+
+    cursor:pointer;
+
+    font-size:18px;
+
+}
+
+button:hover{
+
+    background:#163b5d;
+
+}
+
+button:disabled{
+
+    background:#999;
+
+    cursor:not-allowed;
+
+}
+
+.stats{
+
+    margin-top:30px;
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+
+    gap:15px;
+
+}
+
+.card{
+
+    background:#fafafa;
+
+    border:1px solid #ddd;
+
+    border-radius:8px;
+
+    padding:15px;
+
+    text-align:center;
+
+}
+
+.card h3{
+
+    margin:0;
+
+    color:#1f4e79;
+
+}
+
+.card span{
+
+    font-size:28px;
+
+    display:block;
+
+    margin-top:10px;
+
+}
+
+footer{
+
+    margin-top:40px;
+
+    text-align:center;
+
+    color:#666;
+
+    padding:25px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h1>Random Keystroke Biometrics</h1>
+
+<h2>Data Collection Application</h2>
+
+</header>
+
+<div class="container">
+
+<div class="instructions">
+
+<h3>Instructions</h3>
+
+<ul>
+
+<li>Click <strong>Start New Session</strong>.</li>
+
+<li>The timer begins automatically when you press your first key.</li>
+
+<li>Type random keystrokes for 60 seconds.</li>
+
+<li>Do not attempt to type words or sentences.</li>
+
+<li>Use any keys naturally.</li>
+
+<li>When the timer reaches zero, typing stops automatically.</li>
+
+<li>Download both CSV files.</li>
+
+<li>Repeat the process five times.</li>
+
+</ul>
+
+</div>
+
+<div class="progress-container">
+
+<div
+id="progressBar"
+class="progress-bar">
+</div>
+
+</div>
+
+<div
+class="timer"
+id="timer">
+
+60
+
+</div>
+
+<textarea
+
+id="inputArea"
+
+placeholder="Begin typing random keystrokes here...">
+
+</textarea>
+
+<div class="buttonRow">
+
+<button id="startBtn">
+
+Start New Session
+
+</button>
+
+<button
+id="downloadRawBtn"
+disabled>
+
+Download Raw CSV
+
+</button>
+
+<button
+id="downloadMetricsBtn"
+disabled>
+
+Download Metrics CSV
+
+</button>
+
+</div>
+
+<div class="stats">
+
+<div class="card">
+
+<h3>Total Keys</h3>
+
+<span id="totalKeys">
+
+0
+
+</span>
+
+</div>
+
+<div class="card">
+
+<h3>Press Duration</h3>
+
+<span id="avgPress">
+
+0
+
+</span>
+
+</div>
+
+<div class="card">
+
+<h3>Flight Time</h3>
+
+<span id="avgFlight">
+
+0
+
+</span>
+
+</div>
+
+<div class="card">
+
+<h3>Session</h3>
+
+<span id="sessionNumber">
+
+1
+
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+<footer>
+
+Random Keystroke Biometrics Research Study
+
+</footer>
+
+<script>
+
+/***************************************************
+
+Random Keystroke Biometrics
+
+Part 1
+
+***************************************************/
+
+const inputArea =
+document.getElementById("inputArea");
+
+const timerDisplay =
+document.getElementById("timer");
+
+const progressBar =
+document.getElementById("progressBar");
+
+const startBtn =
+document.getElementById("startBtn");
+
+const downloadRawBtn =
+document.getElementById("downloadRawBtn");
+
+const downloadMetricsBtn =
+document.getElementById("downloadMetricsBtn");
+
+const totalKeysDisplay =
+document.getElementById("totalKeys");
+
+const avgPressDisplay =
+document.getElementById("avgPress");
+
+const avgFlightDisplay =
+document.getElementById("avgFlight");
+
+const sessionDisplay =
+document.getElementById("sessionNumber");
+
+let sessionNumber=1;
+
+let keyEvents=[];
+
+let keyMetrics=[];
+
+let recording=false;
+
+let timerRunning=false;
+
+let startTime=0;
+
+let timerInterval;
+
+let secondsRemaining=60;
+
+/*
+----------------------------------------------------
+
+Continue with Part 2 here.
+
+Do NOT close the script tag yet.
+
+----------------------------------------------------
