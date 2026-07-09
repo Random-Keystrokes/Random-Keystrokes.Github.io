@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Random Keystroke Biometrics Research Application</title>
+
+<link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+
+<header>
+
+<h1>Random Keystroke Biometrics Research Application</h1>
+
+<p>
+Behavioral Biometrics Data Collection System
+</p>
+
+</header>
+
+<main>
+
+<!-- =================================================== -->
+<!-- PARTICIPANT INFORMATION -->
+<!-- =================================================== -->
+
+<section class="card">
+
+<h2>Participant Information</h2>
+
+<div class="grid">
+
+<div>
+
+<label for="participantID">Participant ID</label>
+
+<input
+type="text"
+id="participantID"
+placeholder="P001">
+
+</div>
+
+<div>
+
+<label for="trialNumber">Trial Number</label>
+
+<select id="trialNumber">
+
+<option>1</option>
+<option>2</option>
+<option>3</option>
+<option>4</option>
+<option>5</option>
+
+</select>
+
+</div>
+
+<div>
+
+<label for="deviceType">Device Type</label>
+
+<select id="deviceType">
+
+<option>Laptop</option>
+<option>Desktop</option>
+
+</select>
+
+</div>
+
+<div>
+
+<label for="keyboardType">Keyboard Type</label>
+
+<select id="keyboardType">
+
+<option>Built-in Laptop</option>
+<option>Mechanical</option>
+<option>Membrane</option>
+<option>Ergonomic</option>
+<option>Other</option>
+
+</select>
+
+</div>
+
+<div>
+
+<label for="keyboardLayout">Keyboard Layout</label>
+
+<select id="keyboardLayout">
+
+<option>QWERTY</option>
+<option>AZERTY</option>
+<option>QWERTZ</option>
+<option>DVORAK</option>
+<option>Colemak</option>
+<option>Other</option>
+
+</select>
+
+</div>
+
+<div>
+
+<label for="connectionType">Keyboard Connection</label>
+
+<select id="connectionType">
+
+<option>Built-in</option>
+<option>USB</option>
+<option>Bluetooth</option>
+<option>Wireless Receiver</option>
+
+</select>
+
+</div>
+
+<div>
+
+<label for="dominantHand">Dominant Hand</label>
+
+<select id="dominantHand">
+
+<option>Right</option>
+<option>Left</option>
+<option>Ambidextrous</option>
+
+</select>
+
+</div>
+
+<div>
+
+<label for="typingExperience">Typing Experience</label>
+
+<select id="typingExperience">
+
+<option>Beginner</option>
+<option>Intermediate</option>
+<option>Advanced</option>
+
+</select>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =================================================== -->
+<!-- SESSION INFORMATION -->
+<!-- =================================================== -->
+
+<section class="card">
+
+<h2>Session Information</h2>
+
+<div class="grid">
+
+<div>
+
+<label>Session ID</label>
+
+<div id="sessionID" class="readonly">
+Waiting...
+</div>
+
+</div>
+
+<div>
+
+<label>Status</label>
+
+<div id="status" class="readonly">
+Idle
+</div>
+
+</div>
+
+<div>
+
+<label>Browser</label>
+
+<div id="browser" class="readonly">
+--
+</div>
+
+</div>
+
+<div>
+
+<label>Operating System</label>
+
+<div id="operatingSystem" class="readonly">
+--
+</div>
+
+</div>
+
+<div>
+
+<label>Screen Resolution</label>
+
+<div id="screenResolution" class="readonly">
+--
+</div>
+
+</div>
+
+<div>
+
+<label>Timer</label>
+
+<div id="timer" class="readonly">
+60
+</div>
+
+</div>
+
+</div>
+
+<div class="progress">
+
+<div id="progressBar"></div>
+
+</div>
+
+</section>
+
+<!-- =================================================== -->
+<!-- INSTRUCTIONS -->
+<!-- =================================================== -->
+
+<section class="card">
+
+<h2>Instructions</h2>
+
+<ol>
+
+<li>Verify the participant information.</li>
+
+<li>Click <strong>Start Session</strong>.</li>
+
+<li>The timer begins automatically on the first key press.</li>
+
+<li>Type random keystrokes continuously for 60 seconds.</li>
+
+<li>Do not intentionally type words or sentences.</li>
+
+<li>When the timer expires the session will stop automatically.</li>
+
+<li>Download the CSV files.</li>
+
+</ol>
+
+</section>
+
+<!-- =================================================== -->
+<!-- TYPING AREA -->
+<!-- =================================================== -->
+
+<section class="card">
+
+<h2>Typing Area</h2>
+
+<textarea
+
+id="typingArea"
+
+spellcheck="false"
+
+autocomplete="off"
+
+autocorrect="off"
+
+autocapitalize="off"
+
+placeholder="Begin typing random keystrokes here...">
+
+</textarea>
+
+</section>
+
+<!-- =================================================== -->
+<!-- LIVE STATISTICS -->
+<!-- =================================================== -->
+
+<section class="card">
+
+<h2>Live Statistics</h2>
+
+<div class="stats">
+
+<div class="stat">
+
+<h3>Completed Keystrokes</h3>
+
+<p id="strokeCount">0</p>
+
+</div>
+
+<div class="stat">
+
+<h3>Average Hold Time</h3>
+
+<p id="avgHold">0 ms</p>
+
+</div>
+
+<div class="stat">
+
+<h3>Average IKI</h3>
+
+<p id="avgIKI">0 ms</p>
+
+</div>
+
+<div class="stat">
+
+<h3>Negative IKIs</h3>
+
+<p id="negativeIKI">0</p>
+
+</div>
+
+<div class="stat">
+
+<h3>Maximum Overlap</h3>
+
+<p id="maxOverlap">0 ms</p>
+
+</div>
+
+<div class="stat">
+
+<h3>Active Keys</h3>
+
+<p id="activeKeys">0</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =================================================== -->
+<!-- LIVE KEYSTROKE TABLE -->
+<!-- =================================================== -->
+
+<section class="card">
+
+<h2>Completed Keystrokes</h2>
+
+<div class="tableContainer">
+
+<table id="strokeTable">
+
+<thead>
+
+<tr>
+
+<th>#</th>
+
+<th>Key</th>
+
+<th>Character</th>
+
+<th>Press</th>
+
+<th>Release</th>
+
+<th>Hold</th>
+
+<th>IKI</th>
+
+<th>PPI</th>
+
+<th>RRI</th>
+
+<th>Modifier</th>
+
+<th>Correction</th>
+
+<th>Repeat</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+<!-- =================================================== -->
+<!-- BUTTONS -->
+<!-- =================================================== -->
+
+<section class="card">
+
+<div class="buttons">
+
+<button id="startButton">
+
+Start Session
+
+</button>
+
+<button id="endButton">
+
+End Session
+
+</button>
+
+<button id="resetButton">
+
+Reset
+
+</button>
+
+<button id="downloadSession">
+
+Download Session CSV
+
+</button>
+
+<button id="downloadKeystrokes">
+
+Download Keystrokes CSV
+
+</button>
+
+</div>
+
+</section>
+
+</main>
+
+<footer>
+
+Random Keystroke Biometrics Research Instrument<br>
+
+Version 3.0
+
+</footer>
+
+<script src="keystroke-engine.js"></script>
+
+<script src="app.js"></script>
+
+</body>
+
+</html>
