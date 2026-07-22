@@ -142,8 +142,6 @@
     <div style="text-align:center; margin-top:20px;">
         <button id="continueBtn" disabled>Continue to Typing Task</button>
         <p id="debugCounter" style="font-size:0.8rem; color:#999;">
-            [debug] iframe reloads so far: <span id="reloadCount">0</span>
-            — remove this line once the threshold below is confirmed
         </p>
     </div>
 
@@ -200,7 +198,7 @@ const NEXT_PAGE_URL="Participate_new.html";
 // (1 initial embed load + 1 final submit reload). If testing shows
 // page-to-page "Next" clicks also trigger a reload, raise this to
 // match (e.g. 3 for a 2-page form: initial + 1 page turn + 1 submit).
-const RELOAD_COUNT_TO_UNLOCK=2;
+const RELOAD_COUNT_TO_UNLOCK=3;
 
 document.getElementById("consentBtn").addEventListener("click",function(){
 
