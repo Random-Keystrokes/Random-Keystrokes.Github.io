@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Keystroke Biometrics Data Collection</title>
+
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        color: #333;
+        background-color: #f9f9f9;
+    }
+    header {
+        background: linear-gradient(to right, #2c3e50, #4ca1af);
+        color: white;
+        padding: 2rem 0;
+        text-align: center;
+    }
+    .subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+    }
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 1.5rem;
+    }
+    h2 {
+        color: #2c3e50;
+        border-bottom: 2px solid #4ca1af;
+        padding-bottom: 0.5rem;
+        margin-top: 2rem;
+    }
+    .consent-form,
+    .survey-card {
+        background: white;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 20px auto;
+        max-width: 800px;
+    }
+    button {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 12px 24px;
+        font-size: 16px;
+        margin: 10px 0;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+    button:hover {
+        background-color: #43a047;
+    }
+    .participant-id-note {
+        font-size: 0.85rem;
+        color: #666;
+        margin-top: 1rem;
+    }
+    footer {
+        background-color: #2c3e50;
+        color: white;
+        text-align: center;
+        padding: 1.5rem 0;
+        margin-top: 3rem;
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <h1 style="margin:0 0 0.5rem 0;">Study Title: Human Random Keystrokes Data Collection</h1>
+        <div class="subtitle">Researcher(s): Jacqueline Blake, Binghamton University, Jblake3@Binghamton.edu</div>
+    </div>
+</header>
+
+<div class="consent-form container">
+    <h2>Voluntary Consent</h2>
+    <p>You are being asked to volunteer for a research study. It is your choice whether to participate or not.
+        There will be no penalty or loss of benefits to which you are otherwise entitled if you choose not to participate or to discontinue participation.</p>
+
+    <h2>Purpose:</h2>
+    <p>The purpose of this research is to explore patterns in human typing of random keystroke (how individuals type unpredictable or non-repetitive sequences) can serve as a unique behavioral biometric for user authentication. By analyzing timing and rhythm in keystrokes, the study aims to contribute to the development of non-intrusive, secure, and user-friendly cybersecurity authentication methods.</p>
+    <p>You are invited to participate because you are</p>
+    <ul>
+        <li>Age 18 or older</li>
+        <li>You are English language proficient</li>
+        <li>You have access to a keyboard and ability to type</li>
+        <li>You can decide to agree to participate</li>
+    </ul>
+
+    <h2>Procedures and Activities:</h2>
+    <p>It is expected that approximately 40 individuals will be participating in this research. You will be asked to complete a brief online study involving five, 60 second random typing (typing on your keyboard randomly) using your own computer and standard keyboard. These random keystroke tasks will proceed with an on-screen timer countdown while the system records the timing and rhythm of your keystrokes. At the end of the countdown, you will be asked to download your files and email them to the primary researcher (email: jblake3@binghamton.edu). You will also complete a short demographic questionnaire. The study can be completed at any location with internet access, at a time convenient for you. There is no script to follow and you do not have to type actual words. There is no compensation for participating in this research.</p>
+
+    <h2>Duration:</h2>
+    <p>Your time commitment will be approximately 20 to 25 minutes.</p>
+
+    <h2>Risks:</h2>
+    <p>Some of the foreseeable risks or discomforts of your participation include minor fatigue or discomfort from keyboard use during the typing tasks.
+    Risks are minimal and comparable to everyday computer use. Participants may pause or stop participating at any time. Breach of confidentiality is possible in this research.</p>
+
+    <h2>Benefits:</h2>
+    <p>Some of the benefits that may be expected include contributing to research that may lead to improved digital security and authentication systems.
+    Helping researchers develop non-intrusive, low-cost biometric technologies that can be used to enhance cybersecurity, accessibility, and user experience. However, researchers cannot guarantee that the participant will receive any direct benefit.</p>
+    <p>Alternatives: Participation is voluntary and the only alternative is to not participate.</p>
+
+    <p>
+        <a href="https://raw.githubusercontent.com/Random-Keystrokes/Random-Keystrokes.Github.io/main/Informed_consent_Random_keystroke_6_25.pdf"
+           target="_blank"
+           rel="noopener noreferrer">
+           View/Download Informed Consent Document
+        </a>
+    </p>
+
+    <p>By clicking "I Consent" and participating, you agree to these terms.</p>
+    <button id="consentBtn">I Consent</button>
+</div>
+
+<div class="survey-card" id="surveyContainer" style="display:none;">
+    <h2>Participant Survey</h2>
+    <p>Thank you for your consent to participate in the Human Random Keystrokes Study.
+       Please complete both pages of the following survey and click <strong>Submit</strong>.
+       The <strong>Continue to Typing Task</strong> button below will stay grayed out
+       until then.</p>
+
+    <iframe
+        id="surveyFrame"
+        width="100%"
+        height="900"
+        frameborder="0"
+        marginheight="0"
+        marginwidth="0"
+        style="border:1px solid #ccc; border-radius:8px;">
+        Loading…
+    </iframe>
+
+    <div style="text-align:center; margin-top:20px;">
+        <button id="continueBtn" disabled>Continue to Typing Task</button>
+    </div>
+
+    <p class="participant-id-note">
+        Your participant ID: <span id="participantIdDisplay"></span>
+        &mdash; if you contact the researcher about this session, include this ID.
+    </p>
+</div>
+
+<footer>
+    Random Keystroke Biometrics Research Study
+</footer>
+
+<script>
+/***************************************************
+ Participant ID Generation
+***************************************************/
+
+// Compact, unique-enough ID for ~40 participants: "P" + a base36
+// timestamp fragment + 3 random base36 characters.
+function generateParticipantId(){
+    const timePart=Date.now().toString(36).toUpperCase().slice(-5);
+    const randPart=Math.random().toString(36).toUpperCase().slice(2,5);
+    return "P"+timePart+randPart;
+}
+
+const participantId=generateParticipantId();
+document.getElementById("participantIdDisplay").textContent=participantId;
+
+
+/***************************************************
+ Google Form Pre-fill Configuration
+
+ TODO: replace ENTRY_ID_PLACEHOLDER below with the real entry.NNNNNNN
+ number from your form's "Get pre-filled link" URL, once you've added
+ the Participant ID short-answer question.
+***************************************************/
+
+const FORM_BASE_URL=
+"https://docs.google.com/forms/d/e/1FAIpQLSe2iPfFhtFVZ0IOPnsbVAY7mZl2g4MyauDpxOFAs1p9UeGXIQ/viewform";
+
+const FORM_ID_ENTRY_PARAM="entry.514229739";
+
+const NEXT_PAGE_URL="Participate_new.html";
+
+
+/***************************************************
+ Consent -> Reveal Survey (pre-filled with participant ID)
+***************************************************/
+
+// Confirmed via testing: this form has 2 pages, so the reload
+// sequence is: 1 = initial embed load, 2 = "Next" to page 2,
+// 3 = final Submit. If the number of form pages ever changes,
+// this value needs to change too (page count + 1).
+const RELOAD_COUNT_TO_UNLOCK=3;
+
+document.getElementById("consentBtn").addEventListener("click",function(){
+
+    // Hide the consent section
+    this.parentElement.style.display="none";
+
+    // Build the pre-filled, embedded form URL with this participant's ID
+    const surveyFrame=document.getElementById("surveyFrame");
+    surveyFrame.src=
+        FORM_BASE_URL+
+        "?embedded=true&"+
+        FORM_ID_ENTRY_PARAM+"="+
+        encodeURIComponent(participantId);
+
+    // Show the survey section
+    const surveyContainer=document.getElementById("surveyContainer");
+    surveyContainer.style.display="block";
+    surveyContainer.scrollIntoView({behavior:"smooth"});
+
+    watchForReloads(surveyFrame);
+
+});
+
+
+/***************************************************
+ Unlock Continue on iframe reload
+
+ The form is cross-origin, so we can't read its contents directly —
+ only observe that a reload happened via the `load` event. Confirmed
+ via testing: this form reloads on the initial embed, on each page
+ turn, and on final submit (see RELOAD_COUNT_TO_UNLOCK above).
+***************************************************/
+
+function watchForReloads(surveyFrame){
+
+    let loadCount=0;
+    const continueBtn=document.getElementById("continueBtn");
+
+    surveyFrame.addEventListener("load",function(){
+
+        loadCount++;
+
+        if(loadCount>=RELOAD_COUNT_TO_UNLOCK){
+            continueBtn.disabled=false;
+        }
+
+    });
+
+}
+
+
+/***************************************************
+ Continue -> Typing Task
+
+ The form is cross-origin, so this page has no reliable way to detect
+ submission automatically once the form spans multiple pages. Instead,
+ the participant confirms completion themselves by clicking Continue
+ after they see Google's confirmation screen inside the iframe.
+***************************************************/
+
+document.getElementById("continueBtn").addEventListener("click",function(){
+    window.location.href=
+        NEXT_PAGE_URL+"?id="+encodeURIComponent(participantId);
+});
+</script>
+
+</body>
+</html>
