@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Random Keystroke Biometrics Data Collection</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+
+    font-family:Segoe UI,Tahoma,Geneva,Verdana,sans-serif;
+    margin:0;
+    background:#f5f5f5;
+    color:#333;
+
+}
+
+header{
+
+    background:#1f4e79;
+    color:white;
+    text-align:center;
+    padding:25px;
+
+}
+
+.container{
+
+    width:90%;
+    max-width:1100px;
+
+    margin:30px auto;
+
+    background:white;
+
+    border-radius:10px;
+
+    padding:25px;
+
+    box-shadow:0px 0px 12px rgba(0,0,0,.15);
+
+}
+
+.instructions{
+
+    background:#eef7ff;
+
+    padding:20px;
+
+    border-left:5px solid #1f4e79;
+
+    margin-bottom:20px;
+
+}
+
+.instructions ul{
+
+    margin-top:10px;
+
+}
+
+.timer{
+
+    font-size:48px;
+
+    text-align:center;
+
+    color:#c62828;
+
+    font-weight:bold;
+
+    margin-top:20px;
+
+}
+
+.participantRow{
+
+    margin-top:20px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+.participantRow label{
+
+    font-weight:bold;
+
+    color:#1f4e79;
+
+}
+
+.participantRow input{
+
+    flex:1;
+
+    max-width:260px;
+
+    padding:10px 12px;
+
+    font-size:16px;
+
+    border:1px solid #ccc;
+
+    border-radius:6px;
+
+}
+
+.participantRow input:disabled{
+
+    background:#eee;
+
+    color:#777;
+
+}
+
+.progress-container{
+
+    width:100%;
+
+    height:25px;
+
+    background:#ddd;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    margin-top:20px;
+
+}
+
+.progress-bar{
+
+    width:0%;
+
+    height:100%;
+
+    background:#4CAF50;
+
+    transition:width 1s linear;
+
+}
+
+textarea{
+
+    width:100%;
+
+    height:250px;
+
+    margin-top:25px;
+
+    padding:15px;
+
+    font-size:18px;
+
+    resize:none;
+
+}
+
+.buttonRow{
+
+    margin-top:25px;
+
+    text-align:center;
+
+}
+
+button{
+
+    background:#1f4e79;
+
+    color:white;
+
+    border:none;
+
+    padding:15px 30px;
+
+    margin:10px;
+
+    border-radius:6px;
+
+    cursor:pointer;
+
+    font-size:18px;
+
+}
+
+button:hover{
+
+    background:#163b5d;
+
+}
+
+button:disabled{
+
+    background:#999;
+
+    cursor:not-allowed;
+
+}
+
+.stats{
+
+    margin-top:30px;
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+
+    gap:15px;
+
+}
+
+.card{
+
+    background:#fafafa;
+
+    border:1px solid #ddd;
+
+    border-radius:8px;
+
+    padding:15px;
+
+    text-align:center;
+
+}
+
+.card h3{
+
+    margin:0;
+
+    color:#1f4e79;
+
+}
+
+.card span{
+
+    font-size:28px;
+
+    display:block;
+
+    margin-top:10px;
+
+}
+
+footer{
+
+    margin-top:40px;
+
+    text-align:center;
+
+    color:#666;
+
+    padding:25px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h1>Study Title: Human Random Keystrokes Data Collection</h1>
+
+<h2>Researcher(s): Jacqueline Blake, Binghamton University, Jblake3@Binghamton.edu</h2>
+
+</header>
+
+<div class="container">
+
+<div class="instructions">
+
+<h3>Instructions</h3>
+
+<ul>
+
+<li>Click <strong>Start New Session</strong>.</li>
+
+<li>The timer begins automatically when you press your first key.</li>
+
+<li>Type random keystrokes for 60 seconds.</li>
+
+<li>Do not attempt to type words or sentences.</li>
+
+<li>Use any keys naturally.</li>
+
+<li>When the timer reaches zero, typing stops automatically.</li>
+
+<li>Download the keystroke CSV.</li>
+
+<li>Repeat the process five times.</li>
+
+</ul>
+
+</div>
+
+<div class="participantRow">
+
+<label for="participantId">Participant ID</label>
+
+<input
+type="text"
+id="participantId"
+placeholder="e.g. P014">
+
+<span id="idLockNote" style="font-size:13px; color:#777; display:none;">
+(auto-filled from your survey link)
+</span>
+
+</div>
+
+<div class="progress-container">
+
+<div
+id="progressBar"
+class="progress-bar">
+</div>
+
+</div>
+
+<div
+class="timer"
+id="timer">
+
+60
+
+</div>
+
+<textarea
+
+id="inputArea"
+
+placeholder="Begin typing random keystrokes here...">
+
+</textarea>
+
+<div class="buttonRow">
+
+<button id="startBtn">
+
+Start New Session
+
+</button>
+
+<button
+id="downloadBtn"
+disabled>
+
+Download Keystroke CSV
+
+</button>
+
+</div>
+
+<div class="stats">
+
+<div class="card">
+
+<h3>Total Keys</h3>
+
+<span id="totalKeys">
+
+0
+
+</span>
+
+</div>
+
+<div class="card">
+
+<h3>Avg Hold</h3>
+
+<span id="avgHold">
+
+0
+
+</span>
+
+</div>
+
+<div class="card">
+
+<h3>Avg IKI</h3>
+
+<span id="avgIKI">
+
+0
+
+</span>
+
+</div>
+
+<div class="card">
+
+<h3>Session</h3>
+
+<span id="sessionNumber">
+
+1
+
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+<footer>
+
+Random Keystroke Biometrics Research Study
+
+</footer>
+
+<script>
+
+/***************************************************
+
+Random Keystroke Biometrics
+
+Part 1 - Element References & State
+
+***************************************************/
+
+const participantIdInput =
+document.getElementById("participantId");
+
+const inputArea =
+document.getElementById("inputArea");
+
+const timerDisplay =
+document.getElementById("timer");
+
+const progressBar =
+document.getElementById("progressBar");
+
+const startBtn =
+document.getElementById("startBtn");
+
+const downloadBtn =
+document.getElementById("downloadBtn");
+
+const totalKeysDisplay =
+document.getElementById("totalKeys");
+
+const avgHoldDisplay =
+document.getElementById("avgHold");
+
+const avgIKIDisplay =
+document.getElementById("avgIKI");
+
+const sessionDisplay =
+document.getElementById("sessionNumber");
+
+let sessionNumber=1;
+let currentParticipantId="";  // locked in when a session starts, used in filename + CSV rows
+let participantIdLockedFromURL=false; // true if the ID arrived pre-filled via ?id=...
+
+let keyEvents=[];      // raw keydown/keyup log, used only to build keyMetrics
+let keyMetrics=[];     // one merged row per completed keystroke
+
+let sessionActive=false;  // true from Start click until final CSV is ready
+let recording=false;      // true once the first key of the session is pressed
+let timerRunning=false;
+
+let startTime=0;
+let timerInterval;
+let secondsRemaining=60;
+
+/***************************************************
+ Part 2
+ Session Management
+ Timer
+ Keystroke Recording
+***************************************************/
+
+//------------------------------------
+// Start a New Session
+//------------------------------------
+
+//------------------------------------
+// Participant ID helpers
+//------------------------------------
+
+// Strips anything that isn't safe in a filename, so a stray "/" or
+// space typed into the ID field can't break the downloaded filename.
+function sanitizeParticipantId(raw){
+    const cleaned=raw.trim().replace(/[^a-zA-Z0-9_-]/g,"");
+    return cleaned;
+}
+
+// Pre-fill the ID field from a URL like Participate_new.html?id=P014.
+// Since this value comes from the consent flow (and is what ties this
+// participant's typing data back to their survey response), it is
+// locked from editing entirely rather than left open for correction.
+// If no ID is present in the URL (e.g. someone opens this page
+// directly for testing), the field stays editable as a fallback.
+function applyParticipantIdFromURL(){
+    const params=new URLSearchParams(window.location.search);
+    const idParam=params.get("id");
+    if(idParam){
+        participantIdInput.value=idParam;
+        participantIdInput.disabled=true;
+        participantIdLockedFromURL=true;
+        document.getElementById("idLockNote").style.display="inline";
+    }
+}
+
+
+// Visual reset only — does NOT arm recording. Used both at page load
+// and as the shared groundwork for an actual session start.
+function resetDisplayState(){
+
+    clearInterval(timerInterval);
+
+    keyEvents=[];
+    keyMetrics=[];
+
+    recording=false;
+    timerRunning=false;
+
+    secondsRemaining=60;
+
+    timerDisplay.textContent="60";
+    progressBar.style.width="0%";
+    totalKeysDisplay.textContent="0";
+    avgHoldDisplay.textContent="0";
+    avgIKIDisplay.textContent="0";
+
+    inputArea.value="";
+
+    downloadBtn.disabled=true;
+
+}
+
+// Called only after a Participant ID has been validated on Start click.
+// This is what actually arms keystroke capture (sessionActive=true).
+function resetSession(){
+
+    resetDisplayState();
+
+    sessionActive=true;
+
+    inputArea.disabled=false;
+    inputArea.focus();
+
+}
+
+startBtn.addEventListener("click",function(){
+
+    const idValue=sanitizeParticipantId(participantIdInput.value);
+
+    if(idValue===""){
+        alert("Please enter a Participant ID before starting a session.");
+        participantIdInput.focus();
+        return;
+    }
+
+    // Lock in the ID for this session and disable the field so it can't
+    // be changed mid-session, which would desync the filename from the
+    // data actually being recorded.
+    currentParticipantId=idValue;
+    participantIdInput.value=idValue; // reflect the sanitized version
+    participantIdInput.disabled=true;
+
+    resetSession();
+
+});
+
+
+//------------------------------------
+// Start Recording
+//------------------------------------
+
+function startRecording(){
+
+    recording=true;
+    timerRunning=true;
+    startTime=performance.now();
+    timerInterval=setInterval(updateTimer,1000);
+
+}
+
+
+//------------------------------------
+// Timer
+//------------------------------------
+
+function updateTimer(){
+
+    secondsRemaining--;
+
+    timerDisplay.textContent=secondsRemaining;
+
+    let percent=((60-secondsRemaining)/60)*100;
+
+    progressBar.style.width=percent+"%";
+
+    if(secondsRemaining<=0){
+
+        clearInterval(timerInterval);
+
+        // Grace period: a key pressed right before zero may not release
+        // until a few ms after the timer hits zero. Keep recording=true
+        // briefly so that trailing keyup events still get logged and
+        // matched, instead of being silently dropped.
+        setTimeout(endRecording,250);
+
+    }
+}
+
+
+//------------------------------------
+// Stop Recording
+//------------------------------------
+
+function endRecording(){
+
+    recording=false;
+    timerRunning=false;
+    sessionActive=false;
+
+    inputArea.disabled=true;
+
+    // If the ID came from the consent-page link, it stays locked for
+    // every session. Only re-enable it here for the manual-entry
+    // fallback case (no ?id= in the URL), so a typo can be corrected
+    // before the next session.
+    if(!participantIdLockedFromURL){
+        participantIdInput.disabled=false;
+    }
+
+    processMetrics();
+
+    downloadBtn.disabled=false;
+
+}
+
+
+//------------------------------------
+// Key Down / Key Up
+// Listeners are on document (not inputArea) so a stray Tab/Escape or
+// any focus change during the session does not cause a keyup to be
+// missed. e.repeat is ignored so that OS key auto-repeat does not
+// overwrite the true press time for a held key.
+//------------------------------------
+
+document.addEventListener("keydown",function(e){
+
+    if(!sessionActive) return;
+
+    if(e.code==="Tab"){
+        e.preventDefault(); // keep focus in place during the session
+    }
+
+    if(e.repeat) return; // ignore OS auto-repeat, keep the original press time
+
+    if(!timerRunning){
+        startRecording();
+    }
+
+    let timestamp=performance.now()-startTime;
+
+    keyEvents.push({
+
+        key:e.code,
+        event:"keydown",
+        timestamp:timestamp
+
+    });
+
+});
+
+document.addEventListener("keyup",function(e){
+
+    if(!recording) return;
+
+    let timestamp=performance.now()-startTime;
+
+    keyEvents.push({
+
+        key:e.code,
+        event:"keyup",
+        timestamp:timestamp
+
+    });
+
+});
+
+
+//------------------------------------
+// Update Total Keys (live, during typing)
+//------------------------------------
+
+setInterval(function(){
+
+    if(recording){
+        totalKeysDisplay.textContent=keyEvents.length;
+    }
+
+},250);
+
+
+/***************************************************
+ Part 3
+ Metrics Processing
+ One merged row per completed keystroke:
+ Seq, Key, Press, Release, Hold, IKI, PPI, RRI
+***************************************************/
+
+function processMetrics(){
+
+    keyMetrics=[];
+
+    const activeKeys={};
+
+    let previousPress=null;
+    let previousRelease=null;
+    let seq=0;
+
+    for(let i=0;i<keyEvents.length;i++){
+
+        const event=keyEvents[i];
+
+        if(event.event==="keydown"){
+
+            // Only record the first keydown for a given key while it is
+            // still down (auto-repeat is already filtered out above, but
+            // this guards against any duplicate keydown before its keyup).
+            if(activeKeys[event.key]===undefined){
+                activeKeys[event.key]=event.timestamp;
+            }
+
+        }
+        else if(event.event==="keyup"){
+
+            if(activeKeys[event.key]!==undefined){
+
+                const press=activeKeys[event.key];
+                const release=event.timestamp;
+                const hold=release-press;
+
+                let iki=0;
+                let ppi=0;
+                let rri=0;
+
+                if(previousRelease!==null){
+                    iki=press-previousRelease;
+                    rri=release-previousRelease;
+                }
+
+                if(previousPress!==null){
+                    ppi=press-previousPress;
+                }
+
+                seq++;
+
+                keyMetrics.push({
+
+                    seq:seq,
+                    key:event.key,
+                    press:press,
+                    release:release,
+                    hold:hold,
+                    iki:iki,
+                    ppi:ppi,
+                    rri:rri
+
+                });
+
+                previousPress=press;
+                previousRelease=release;
+
+                delete activeKeys[event.key];
+
+            }
+
+        }
+
+    }
+
+    // Note: if a key is still down when the session ends (no matching
+    // keyup even after the grace period), it has no release time and is
+    // intentionally left out of keyMetrics rather than logged with a
+    // guessed release time.
+
+    updateStatistics();
+
+}
+
+
+//------------------------------------
+// Display Session Statistics
+//------------------------------------
+
+function updateStatistics(){
+
+    let holdSum=0;
+    let ikiSum=0;
+    let ikiCount=0;
+
+    keyMetrics.forEach(function(metric,index){
+
+        holdSum+=metric.hold;
+
+        if(index>0){ // skip the first row, whose IKI is a placeholder 0
+            ikiSum+=metric.iki;
+            ikiCount++;
+        }
+
+    });
+
+    let avgHold=0;
+    let avgIKI=0;
+
+    if(keyMetrics.length>0){
+        avgHold=holdSum/keyMetrics.length;
+    }
+
+    if(ikiCount>0){
+        avgIKI=ikiSum/ikiCount;
+    }
+
+    totalKeysDisplay.textContent=keyMetrics.length;
+    avgHoldDisplay.textContent=avgHold.toFixed(1)+" ms";
+    avgIKIDisplay.textContent=avgIKI.toFixed(1)+" ms";
+
+}
+
+
+//------------------------------------
+// Create Keystroke CSV (tab-delimited, one row per completed keystroke)
+//------------------------------------
+
+function createKeystrokeCSV(){
+
+    let csv="ParticipantID,Seq,Key,Press,Release,Hold,IKI,PPI,RRI\n";
+
+    keyMetrics.forEach(function(m){
+
+        csv+=
+            currentParticipantId+","+
+            m.seq+","+
+            m.key+","+
+            m.press.toFixed(1)+","+
+            m.release.toFixed(1)+","+
+            m.hold.toFixed(1)+","+
+            m.iki.toFixed(1)+","+
+            m.ppi.toFixed(1)+","+
+            m.rri.toFixed(1)+
+            "\n";
+
+    });
+
+    return csv;
+
+}
+
+
+/***************************************************
+ Part 4
+ Download
+ Initialization
+***************************************************/
+
+function downloadCSV(filename, content){
+
+    const blob = new Blob([content], {type:"text/csv"});
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = filename;
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(url);
+
+}
+
+downloadBtn.addEventListener("click", function(){
+
+    const now = new Date();
+
+    const timestamp =
+        now.getFullYear() +
+        String(now.getMonth()+1).padStart(2,"0") +
+        String(now.getDate()).padStart(2,"0") + "_" +
+        String(now.getHours()).padStart(2,"0") +
+        String(now.getMinutes()).padStart(2,"0") +
+        String(now.getSeconds()).padStart(2,"0");
+
+    downloadCSV(
+        "keystroke_" +
+        currentParticipantId +
+        "_session_" +
+        sessionNumber +
+        "_" +
+        timestamp +
+        ".csv",
+
+        createKeystrokeCSV()
+    );
+
+    sessionNumber++;
+    sessionDisplay.textContent = sessionNumber;
+
+});
+
+
+//------------------------------------
+// Initialize Page
+//------------------------------------
+
+window.onload = function(){
+    applyParticipantIdFromURL();
+    resetDisplayState();
+    inputArea.disabled=true; // stays disabled until Start is clicked with a valid ID
+};
+
+</script>
+
+</body>
+</html>
